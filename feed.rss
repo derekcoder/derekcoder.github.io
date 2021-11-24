@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DerekCoder's Life &amp; Technology</title><description>It's more important to stick to output than the quality.</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 21 Nov 2021 18:55:30 +0800</lastBuildDate><pubDate>Sun, 21 Nov 2021 18:55:30 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/palindrome-1</guid><title>Algorithm - Palindrome(I)</title><description>How to check a string whether it is a palindrome or not?</description><link>https://derekcoder.github.io/posts/palindrome-1</link><pubDate>Sun, 21 Nov 2021 18:50:00 +0800</pubDate><content:encoded><![CDATA[<h1>Algorithm - Palindrome(I)</h1><blockquote><p>Given a string, if it reads the same forward and backward. We think this string is a palindrome.</p></blockquote><p>So how to check a string whether it is a palindrome or not?</p><h3>Solution:</h3><pre><code class="language-swift">func isPalindrome(_ s: String) -&gt; Bool {
-    // 1
-    let array = Array(s)
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DerekCoder's Life &amp; Technology</title><description>It's more important to stick to output than the quality.</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 24 Nov 2021 21:51:52 +0800</lastBuildDate><pubDate>Wed, 24 Nov 2021 21:51:52 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/palindrome-1</guid><title>Algorithm - Palindrome(I)</title><description>How to check a string whether it is a palindrome or not?</description><link>https://derekcoder.github.io/posts/palindrome-1</link><pubDate>Sun, 21 Nov 2021 18:50:00 +0800</pubDate><content:encoded><![CDATA[<h1>Algorithm - Palindrome(I)</h1><blockquote><p>Given a string, if it reads the same forward and backward. We think this string is a palindrome.</p></blockquote><p>So how to check a string whether it is a palindrome or not?</p><h3>Solution:</h3><pre><code><span class="keyword">func</span> isPalindrome(<span class="keyword">_</span> s: <span class="type">String</span>) -&gt; <span class="type">Bool</span> {
+    <span class="comment">// 1</span>
+    <span class="keyword">let</span> array = <span class="type">Array</span>(s)
 
-    // 2
-    var left = 0
-    var right = array.count - 1
+    <span class="comment">// 2</span>
+    <span class="keyword">var</span> left = <span class="number">0</span>
+    <span class="keyword">var</span> right = array.<span class="property">count</span> - <span class="number">1</span>
 
-    // 3
-    while left &lt; right {
-        // 4
-        if array[left] == array[right] {
-            left += 1
-            right -= 1
-        } else {
-            return false
+    <span class="comment">// 3</span>
+    <span class="keyword">while</span> left &lt; <span class="call">right</span> {
+        <span class="comment">// 4</span>
+        <span class="keyword">if</span> array[left] == array[right] {
+            left += <span class="number">1</span>
+            right -= <span class="number">1</span>
+        } <span class="keyword">else</span> {
+            <span class="keyword">return false</span>
         }
     }
 
-    // 5
-    return true
+    <span class="comment">// 5</span>
+    <span class="keyword">return true</span>
 }
 </code></pre><h3>How it works:</h3><ol><li>Create a characters array</li><li>Define two variables: <code>left</code> or <code>right</code>. We use <code>left</code> variable to track the location from left, and use <code>right</code> variable to track location from right.</li><li>We check whether <code>left</code> location meet the <code>right</code> location.</li><li>Everytime we compare the element at the <code>left</code> location is the same with the element at the <code>right</code> location. If equals, then left location move one step to right, and right location move one step to left. If not, return <code>fasle</code>(means this string is not a palindrome).</li><li>If the <code>left</code> location meet the <code>right</code> location, and all the elements are the same, return <code>true</code>(means this string is a palindrome).</li></ol>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/start-blogging</guid><title>Stick to blogging</title><description>Wish I can have a regular output.</description><link>https://derekcoder.github.io/posts/start-blogging</link><pubDate>Sat, 13 Nov 2021 20:58:00 +0800</pubDate><content:encoded><![CDATA[<h1>Stick to blogging</h1><p>From now on, urge myself to record life and technology using blog. Hopefully, I will have a regular output.</p>]]></content:encoded></item></channel></rss>
