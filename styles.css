@@ -129,6 +129,48 @@ article .date { color: #555; }
     margin-bottom: 40px;
 }
 
+.content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 90%
+}
+.content video {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    max-width: 90%
+}
+.content ul {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    list-style: disc;
+}
+.content li {
+    line-height: 1.6em;
+}
+.content ol {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 1.6em;
+    list-style: decimal;
+}
+.content ol li, .content ul li {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+    line-height: 1.6em;
+}
+.content ol ul, .content ol ol, .content ul ol, .content ul ul {
+    margin-top: 10px;
+    margin-left: 10px;
+}
+
 .browse-all {
     display: block;
     margin-bottom: 30px;
@@ -151,8 +193,8 @@ code {
 article p code, article li code, .discover .content code {
     background-color: #e2e2e2;
     display: inline-block;
-    padding: 0 5px;
-    border-radius: 8px;
+    padding: 0 5px 0px 5px;
+    border-radius: 3px;
     font-size: 0.9em;
     margin: 1px;
     line-break: anywhere;
