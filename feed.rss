@@ -1,4 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 12 Dec 2021 08:38:44 +0800</lastBuildDate><pubDate>Sun, 12 Dec 2021 08:38:44 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/278-leetcode-first-bad-version</guid><title>278. 第一个错误的版本</title><description>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</description><link>https://derekcoder.github.io/posts/278-leetcode-first-bad-version</link><pubDate>Sun, 12 Dec 2021 08:28:00 +0800</pubDate><content:encoded><![CDATA[<h1>278. 第一个错误的版本</h1><p><a href="https://leetcode-cn.com/problems/first-bad-version/">力扣</a></p><blockquote><p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。<br><br>假设你有 n 个版本 [1, 2, ..., n]，你想找出导致之后所有版本出错的第一个错误的版本。<br><br>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 12 Dec 2021 14:46:46 +0800</lastBuildDate><pubDate>Sun, 12 Dec 2021 14:46:46 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/35-leetcode-search-insert-position</guid><title>35. 搜索插入位置</title><description>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</description><link>https://derekcoder.github.io/posts/35-leetcode-search-insert-position</link><pubDate>Sun, 12 Dec 2021 13:23:00 +0800</pubDate><content:encoded><![CDATA[<h1>35. 搜索插入位置</h1><p><a href="https://leetcode-cn.com/problems/search-insert-position/">力扣</a></p><blockquote><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。<br><br>请必须使用时间复杂度为 O(log n) 的算法。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入: nums = [1,3,5,6], target = 5
+输出: 2
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入: nums = [1,3,5,6], target = 2
+输出: 1
+</code></pre><p>示例三：</p><pre data-language="undefined"><code>
+输入: nums = [1,3,5,6], target = 7
+输出: 4
+</code></pre><p>示例四：</p><pre data-language="undefined"><code>
+输入: nums = [1,3,5,6], target = 0
+输出: 0
+</code></pre><p>示例五：</p><pre data-language="undefined"><code>
+输入: nums = [1], target = 0
+输出: 0
+</code></pre><h3>解题方法：</h3><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span>
+            <span class="hljs-keyword">if</span> nums[mid] &lt; target {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">if</span> mid == <span class="hljs-number">0</span> || nums[mid - <span class="hljs-number">1</span>] &lt; target {
+                    <span class="hljs-keyword">return</span> mid
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> nums.<span class="hljs-built_in">count</span>
+    }
+}
+</code></pre><h3>解题思路:</h3><p>假设题意是叫你在排序数组中寻找是否存在一个目标值，那么训练有素的读者肯定立马就能想到利用二分法在 <code>O(logn)</code> 的时间内找到是否存在目标值。但这题还多了个额外的条件，即如果不存在数组中的时候需要返回按顺序插入的位置，那我们还能用二分法么？答案是可以的，我们只需要稍作修改即可。</p><p>考虑这个插入的位置 <code>pos</code>，它成立的条件为：</p><p><code>nums[pos−1] &lt; target ≤ nums[pos]</code></p><p>其中 <code>nums</code> 代表排序数组。由于如果存在这个目标值，我们返回的索引也是 <code>pos</code>，因此我们可以将两个条件合并得出最后的目标：「在一个有序数组中找第一个大于等于 <code>target</code> 的下标」。</p>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/278-leetcode-first-bad-version</guid><title>278. 第一个错误的版本</title><description>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</description><link>https://derekcoder.github.io/posts/278-leetcode-first-bad-version</link><pubDate>Sun, 12 Dec 2021 08:28:00 +0800</pubDate><content:encoded><![CDATA[<h1>278. 第一个错误的版本</h1><p><a href="https://leetcode-cn.com/problems/first-bad-version/">力扣</a></p><blockquote><p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。<br><br>假设你有 n 个版本 [1, 2, ..., n]，你想找出导致之后所有版本出错的第一个错误的版本。<br><br>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：n = 5, bad = 4
 输出：4
 解释：
