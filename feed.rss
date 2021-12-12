@@ -1,4 +1,33 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sat, 11 Dec 2021 21:54:27 +0800</lastBuildDate><pubDate>Sat, 11 Dec 2021 21:54:27 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/704-leetcode-binary-search</guid><title>704. 二分查找</title><description>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</description><link>https://derekcoder.github.io/posts/704-leetcode-binary-search</link><pubDate>Sat, 11 Dec 2021 18:50:00 +0800</pubDate><content:encoded><![CDATA[<h1>704. 二分查找</h1><p><a href="https://leetcode-cn.com/problems/binary-search/">力扣</a></p><blockquote><p>给定一个 <code>n</code> 个元素有序的（升序）整型数组 <code>nums</code> 和一个目标值 <code>target</code>，写一个函数搜索 <code>nums</code> 中的 <code>target</code>，如果目标值存在返回下标，否则返回 <code>-1</code>。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 12 Dec 2021 08:38:44 +0800</lastBuildDate><pubDate>Sun, 12 Dec 2021 08:38:44 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/278-leetcode-first-bad-version</guid><title>278. 第一个错误的版本</title><description>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。</description><link>https://derekcoder.github.io/posts/278-leetcode-first-bad-version</link><pubDate>Sun, 12 Dec 2021 08:28:00 +0800</pubDate><content:encoded><![CDATA[<h1>278. 第一个错误的版本</h1><p><a href="https://leetcode-cn.com/problems/first-bad-version/">力扣</a></p><blockquote><p>你是产品经理，目前正在带领一个团队开发新的产品。不幸的是，你的产品的最新版本没有通过质量检测。由于每个版本都是基于之前的版本开发的，所以错误的版本之后的所有版本都是错的。<br><br>假设你有 n 个版本 [1, 2, ..., n]，你想找出导致之后所有版本出错的第一个错误的版本。<br><br>你可以通过调用 bool isBadVersion(version) 接口来判断版本号 version 是否在单元测试中出错。实现一个函数来查找第一个错误的版本。你应该尽量减少对调用 API 的次数。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：n = 5, bad = 4
+输出：4
+解释：
+调用 isBadVersion(3) -> false 
+调用 isBadVersion(5) -> true 
+调用 isBadVersion(4) -> true
+所以，4 是第一个错误的版本。
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：n = 1, bad = 1
+输出：1
+</code></pre><h3>解题方法：</h3><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> : <span class="hljs-title">VersionControl</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">firstBadVersion</span><span class="hljs-params">(<span class="hljs-number">_</span> n: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">1</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = n
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> { <span class="hljs-comment">// 循环直至区间左右端点相同</span>
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span> <span class="hljs-comment">// 防止计算时溢出</span>
+            <span class="hljs-keyword">if</span> isBadVersion(mid) {
+                <span class="hljs-keyword">right</span> = mid <span class="hljs-comment">// 答案在区间 [left, mid] 中</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span> <span class="hljs-comment">// 答案在区间 [mid+1, right] 中</span>
+            }
+        }
+        
+        <span class="hljs-comment">// 此时有 left == right，区间缩为一个点，即为答案</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">left</span>
+    }
+}
+</code></pre><h3>解题思路:</h3><p>当一个版本为正确版本，则该版本之前的所有版本均为正确版本；当一个版本为错误版本，则该版本之后的所有版本均为错误版本。我们可以利用这个性质进行二分查找。</p><p>具体地，将左右边界分别初始化为 <code>1</code> 和 <code>n</code>，其中 <code>n</code> 是给定的版本数量。设定左右边界之后，每次我们都依据左右边界找到其中间的版本，检查其是否为正确版本。如果该版本为正确版本，那么第一个错误的版本必然位于该版本的右侧，我们缩紧左边界；否则第一个错误的版本必然位于该版本及该版本的左侧，我们缩紧右边界。</p><p>这样我们每判断一次都可以缩紧一次边界，而每次缩紧时两边界距离将变为原来的一半，因此我们至多只需要缩紧 <code>O(logn)</code> 次。</p>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/704-leetcode-binary-search</guid><title>704. 二分查找</title><description>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</description><link>https://derekcoder.github.io/posts/704-leetcode-binary-search</link><pubDate>Sat, 11 Dec 2021 18:50:00 +0800</pubDate><content:encoded><![CDATA[<h1>704. 二分查找</h1><p><a href="https://leetcode-cn.com/problems/binary-search/">力扣</a></p><blockquote><p>给定一个 <code>n</code> 个元素有序的（升序）整型数组 <code>nums</code> 和一个目标值 <code>target</code>，写一个函数搜索 <code>nums</code> 中的 <code>target</code>，如果目标值存在返回下标，否则返回 <code>-1</code>。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入: nums = [-1,0,3,5,9,12], target = 9
 输出: 4
 解释: 9 出现在 nums 中并且下标为 4
@@ -10,10 +39,9 @@
     <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">search</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
-        <span class="hljs-keyword">var</span> mid = -<span class="hljs-number">1</span>
 
         <span class="hljs-keyword">while</span> (<span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span>) {
-            mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span>
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span>
             <span class="hljs-keyword">if</span> nums[mid] &lt; target {
                 low = mid + <span class="hljs-number">1</span>
             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> nums[mid] &gt; target {
