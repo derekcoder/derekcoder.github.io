@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 12 Dec 2021 18:57:03 +0800</lastBuildDate><pubDate>Sun, 12 Dec 2021 18:57:03 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/977-leetcode-squares-of-a-sorted-array</guid><title>977. 有序数组的平方</title><description>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。</description><link>https://derekcoder.github.io/posts/977-leetcode-squares-of-a-sorted-array</link><pubDate>Sun, 12 Dec 2021 16:44:00 +0800</pubDate><content:encoded><![CDATA[<h1>977. 有序数组的平方</h1><p><a href="https://leetcode-cn.com/problems/squares-of-a-sorted-array/">力扣</a></p><blockquote><p>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。<br>请你设计时间复杂度为 O(n) 的算法解决本问题</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Tue, 14 Dec 2021 18:49:58 +0800</lastBuildDate><pubDate>Tue, 14 Dec 2021 18:49:58 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/189-leetcode-rotate-array</guid><title>189. 旋转数组</title><description>给你一个数组，将数组中的元素向右轮转 k 个位置，其中 k 是非负数。</description><link>https://derekcoder.github.io/posts/189-leetcode-rotate-array</link><pubDate>Tue, 14 Dec 2021 18:30:00 +0800</pubDate><content:encoded><![CDATA[<h1>189. 旋转数组</h1><p><a href="https://leetcode-cn.com/problems/rotate-array/">力扣</a></p><blockquote><p>给你一个数组，将数组中的元素向右轮转 <code>k</code> 个位置，其中 <code>k</code> 是非负数。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入: nums = [1,2,3,4,5,6,7], k = 3
+输出: [5,6,7,1,2,3,4]
+解释:
+向右轮转 1 步: [7,1,2,3,4,5,6]
+向右轮转 2 步: [6,7,1,2,3,4,5]
+向右轮转 3 步: [5,6,7,1,2,3,4]
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：nums = [-1,-100,3,99], k = 2
+输出：[3,99,-1,-100]
+解释: 
+向右轮转 1 步: [99,-1,-100,3]
+向右轮转 2 步: [3,99,-1,-100]
+</code></pre><h2>解题方法一：使用额外的数组</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">rotate</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: <span class="hljs-keyword">inout</span> [Int], <span class="hljs-number">_</span> k: Int)</span></span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = nums.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">guard</span> <span class="hljs-built_in">count</span> &gt;= <span class="hljs-number">2</span> &amp;&amp; <span class="hljs-built_in">count</span> != k <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">return</span>
+        }
+        
+        <span class="hljs-keyword">var</span> result = [<span class="hljs-type">Int</span>](repeating: -<span class="hljs-number">1</span>, <span class="hljs-built_in">count</span>: <span class="hljs-built_in">count</span>)
+        <span class="hljs-keyword">let</span> k = k % <span class="hljs-built_in">count</span>
+        
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;k {
+            <span class="hljs-keyword">let</span> index = <span class="hljs-built_in">count</span> - k + i
+            result[i] = nums[index]
+        }
+        
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;(<span class="hljs-built_in">count</span> - k) {
+            result[k + i] = nums[i]
+        }
+        
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-built_in">count</span> {
+            nums[i] = result[i]
+        }
+    }
+}
+</code></pre><h3>解题思路:</h3><p>我们可以使用额外的数组来将每个元素放至正确的位置。用 <code>n</code> 表示数组的长度，先遍历最后 <code>k</code> 个元素，并把它们加入到新数组的前面。之后再遍历数组的前 <code>count - k</code> 个数据，加入新数组的后面。最后将新数组拷贝至原数组即可。</p><h3>复杂度分析</h3><ul><li>时间复杂度： <code>O(n)</code>，其中 <code>n</code> 为数组的长度。</li><li>空间复杂度： <code>O(n)</code>。</li></ul><h2>解题方法二：数组翻转</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">rotate</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: <span class="hljs-keyword">inout</span> [Int], <span class="hljs-number">_</span> k: Int)</span></span> {
+        <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = nums.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">guard</span> <span class="hljs-built_in">count</span> &gt;= <span class="hljs-number">2</span> || <span class="hljs-built_in">count</span> != k <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
+        
+        <span class="hljs-keyword">let</span> k = k % <span class="hljs-built_in">count</span>
+        <span class="hljs-built_in">reverse</span>(&amp;nums, <span class="hljs-number">0</span>, <span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>)
+        <span class="hljs-built_in">reverse</span>(&amp;nums, <span class="hljs-number">0</span>, k - <span class="hljs-number">1</span>)
+        <span class="hljs-built_in">reverse</span>(&amp;nums, k, <span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>)
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reverse</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: <span class="hljs-keyword">inout</span> [Int], <span class="hljs-number">_</span> start: Int, <span class="hljs-number">_</span> end: Int)</span></span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = start
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = end
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> {
+            nums.swapAt(<span class="hljs-keyword">left</span>, <span class="hljs-keyword">right</span>)
+            <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span>
+            <span class="hljs-keyword">right</span> -= <span class="hljs-number">1</span>
+        }
+    }
+}
+</code></pre><h3>解题思路:</h3><p>该方法基于如下的事实：当我们将数组的元素向右移动 <code>k</code> 次后，尾部 <code>k%n</code> 个元素会移动至数组头部，其余元素向后移动 <code>k%n</code> 个位置。</p><p>该方法为数组的翻转：我们可以先将所有元素翻转，这样尾部的 <code>k%n</code> 个元素就被移至数组头部，然后我们再翻转 [<code>0</code>,<code>k%n−1</code>] 区间的元素和 [<code>k%n</code>,<code>n−1</code>] 区间的元素即能得到最后的答案。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 为数组的长度。每个元素被翻转两次，一共 <code>n</code> 个元素，因此总时间复杂度为 <code>O(2n)</code>=<code>O(n)</code>。</li><li>空间复杂度：<code>O(1)</code>。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/977-leetcode-squares-of-a-sorted-array</guid><title>977. 有序数组的平方</title><description>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。</description><link>https://derekcoder.github.io/posts/977-leetcode-squares-of-a-sorted-array</link><pubDate>Sun, 12 Dec 2021 16:44:00 +0800</pubDate><content:encoded><![CDATA[<h1>977. 有序数组的平方</h1><p><a href="https://leetcode-cn.com/problems/squares-of-a-sorted-array/">力扣</a></p><blockquote><p>给你一个按 非递减顺序 排序的整数数组 nums，返回 每个数字的平方 组成的新数组，要求也按 非递减顺序 排序。<br>请你设计时间复杂度为 O(n) 的算法解决本问题</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：nums = [-4,-1,0,3,10]
 输出：[0,1,9,16,100]
 解释：平方后，数组变为 [16,1,0,9,100]
