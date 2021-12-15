@@ -1,4 +1,38 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 15 Dec 2021 15:31:56 +0800</lastBuildDate><pubDate>Wed, 15 Dec 2021 15:31:56 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/283-leetcode-move-zeros</guid><title>283. 移动零</title><description>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</description><link>https://derekcoder.github.io/posts/283-leetcode-move-zeros</link><pubDate>Wed, 15 Dec 2021 15:20:00 +0800</pubDate><content:encoded><![CDATA[<h1>283. 移动零</h1><p><a href="https://leetcode-cn.com/problems/move-zeroes/">力扣</a></p><blockquote><p>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 15 Dec 2021 19:01:40 +0800</lastBuildDate><pubDate>Wed, 15 Dec 2021 19:01:40 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</guid><title>167. 两数之和 II - 输入有序数组</title><description>给定一个已按照非递减顺序排列的整数数组 numbers，请你从数组中找出两个数满足相加之和等于目标数 target。</description><link>https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</link><pubDate>Wed, 15 Dec 2021 18:54:00 +0800</pubDate><content:encoded><![CDATA[<h1>167. 两数之和 II - 输入有序数组</h1><p><a href="https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/">力扣</a></p><blockquote><p>给定一个已按照<strong>非递减顺序排列</strong>的整数数组 <code>numbers</code> ，请你从数组中找出两个数满足相加之和等于目标数 <code>target</code>。<br /><br />函数应该以长度为 <code>2</code> 的整数数组的形式返回这两个数的下标值。<code>numbers</code> 的下标 从 <code>1</code> 开始计数 ，所以答案数组应当满足 <code>1 &lt;= answer[0] &lt; answer[1] &lt;= numbers.length</code>。<br /><br />你可以假设每个输入<strong>只对应唯一的答案</strong>，而且你<strong>不可以</strong>重复使用相同的元素。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：numbers = [2,7,11,15], target = 9
+输出：[1,2]
+解释：2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：numbers = [2,3,4], target = 6
+输出：[1,3]
+</code></pre><p>示例三：</p><pre data-language="undefined"><code>
+输入：numbers = [-1,0], target = -1
+输出：[1,2]
+</code></pre><h2>解题方法：双指针</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">twoSum</span><span class="hljs-params">(<span class="hljs-number">_</span> numbers: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+        <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = numbers.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">guard</span> <span class="hljs-built_in">count</span> &gt; <span class="hljs-number">2</span> <span class="hljs-keyword">else</span> { 
+            <span class="hljs-keyword">return</span> [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>] 
+        }
+        
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = <span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> {
+            <span class="hljs-keyword">let</span> value = numbers[<span class="hljs-keyword">left</span>] + numbers[<span class="hljs-keyword">right</span>]
+            <span class="hljs-keyword">if</span> value &gt; target {
+                <span class="hljs-keyword">right</span> -= <span class="hljs-number">1</span>
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> value &lt; target {
+                <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">return</span> [<span class="hljs-keyword">left</span> + <span class="hljs-number">1</span>, <span class="hljs-keyword">right</span> + <span class="hljs-number">1</span>]
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> [-<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>]
+    }
+}
+</code></pre><h3>解题思路:</h3><p>初始时两个指针分别指向第一个元素位置和最后一个元素的位置。每次计算两个指针指向的两个元素之和，并和目标值比较。如果两个元素之和等于目标值，则发现了唯一解。如果两个元素之和小于目标值，则将左侧指针右移一位。如果两个元素之和大于目标值，则将右侧指针左移一位。移动指针之后，重复上述操作，直到找到答案。</p><p>使用双指针的实质是缩小查找范围。那么会不会把可能的解过滤掉？答案是不会。假设 <code>numbers[i]+numbers[j]=target</code> 是唯一解，其中 <code>0≤i&lt;j≤numbers.length−1</code>。初始时两个指针分别指向下标 <code>0</code> 和下标 <code>numbers.length−1</code>，左指针指向的下标小于或等于 <code>i</code>，右指针指向的下标大于或等于 <code>j</code>。除非初始时左指针和右指针已经位于下标 <code>i</code> 和 <code>j</code>，否则一定是左指针先到达下标 <code>i</code> 的位置或者右指针先到达下标 <code>j</code> 的位置。</p><p>如果左指针先到达下标 <code>i</code> 的位置，此时右指针还在下标 <code>j</code> 的右侧，<code>sum&gt;target</code>，因此一定是右指针左移，左指针不可能移到 <code>i</code> 的右侧。</p><p>如果右指针先到达下标 <code>j</code> 的位置，此时左指针还在下标 ii 的左侧，<code>sum&lt;target</code>，因此一定是左指针右移，右指针不可能移到 <code>j</code> 的左侧。</p><p>由此可见，在整个移动过程中，左指针不可能移到 <code>i</code> 的右侧，右指针不可能移到 <code>j</code> 的左侧，因此不会把可能的解过滤掉。由于题目确保有唯一的答案，因此使用双指针一定可以找到答案。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 为数组的长度。两个指针移动的总次数最多为 <code>n</code> 次。</li><li>空间复杂度：<code>O(1)</code>。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/283-leetcode-move-zeros</guid><title>283. 移动零</title><description>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</description><link>https://derekcoder.github.io/posts/283-leetcode-move-zeros</link><pubDate>Wed, 15 Dec 2021 15:20:00 +0800</pubDate><content:encoded><![CDATA[<h1>283. 移动零</h1><p><a href="https://leetcode-cn.com/problems/move-zeroes/">力扣</a></p><blockquote><p>给定一个数组 nums，编写一个函数将所有 0 移动到数组的末尾，同时保持非零元素的相对顺序。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入: [0,1,0,3,12]
 输出: [1,3,12,0,0]
 </code></pre><h2>解题方法：双指针</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
