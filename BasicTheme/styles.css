@@ -133,6 +133,9 @@ article .date { color: #555; }
 .tag-list .variant-1 { background-color: #54549c; }
 .tag-list .variant-2 { background-color: #ca4a44; }
 .tag-list .variant-3 { background-color: #497d97; }
+.tag-list .variant-4 { background-color: #49a191; }
+.tag-list .variant-5 { background-color: #f4bc41; }
+.tag-list .variant-6 { background-color: #eb445a; }
 
 .tag-list a,
 .tag a {
