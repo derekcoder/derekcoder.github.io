@@ -1,10 +1,40 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 15 Dec 2021 20:54:21 +0800</lastBuildDate><pubDate>Wed, 15 Dec 2021 20:54:21 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/344-leetcode-reverse-string</guid><title>344. 反转字符串</title><description>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 s 的形式给出。</description><link>https://derekcoder.github.io/posts/344-leetcode-reverse-string</link><pubDate>Wed, 15 Dec 2021 20:41:00 +0800</pubDate><content:encoded><![CDATA[<h1>344. 反转字符串</h1><p><a href="https://leetcode-cn.com/problems/reverse-string/">力扣</a></p><blockquote><p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 <code>s</code> 的形式给出。<br /><br />不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 <code>O(1)</code> 的额外空间解决这一问题。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 15 Dec 2021 21:40:30 +0800</lastBuildDate><pubDate>Wed, 15 Dec 2021 21:40:30 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</guid><title>557. 反转字符串中的单词 III</title><description>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</description><link>https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</link><pubDate>Wed, 15 Dec 2021 21:32:00 +0800</pubDate><content:encoded><![CDATA[<h1>557. 反转字符串中的单词 III</h1><p><a href="https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/">力扣</a></p><blockquote><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。在字符串中，每个单词由单个空格分隔，并且字符串中不会有任何额外的空格。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入："Let's take LeetCode contest"
+输出："s'teL ekat edoCteeL tsetnoc"
+</code></pre><h2>解题方法：双指针</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reverseWords</span><span class="hljs-params">(<span class="hljs-number">_</span> s: String)</span></span> -&gt; <span class="hljs-type">String</span> {
+        <span class="hljs-keyword">let</span> charArray = <span class="hljs-type">Array</span>(s)
+        <span class="hljs-keyword">let</span> length = charArray.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">var</span> result = <span class="hljs-string">""</span>
+        <span class="hljs-keyword">var</span> end = <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">while</span> end &lt; length {
+            <span class="hljs-keyword">let</span> start = end
+
+            <span class="hljs-keyword">while</span> end &lt; length &amp;&amp; charArray[end] != <span class="hljs-string">" "</span> {
+                end += <span class="hljs-number">1</span>
+            }
+
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> start..&lt;end {
+                result += <span class="hljs-type">String</span>(charArray[start + end - <span class="hljs-number">1</span> - i])
+            }
+            
+            <span class="hljs-keyword">if</span> end &lt; length &amp;&amp; charArray[end] == <span class="hljs-string">" "</span> {
+                end += <span class="hljs-number">1</span>
+                result += <span class="hljs-string">" "</span>
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> result
+    }
+}
+</code></pre><h3>解题思路</h3><p>开辟一个新字符串。然后从头到尾遍历原字符串，直到找到空格为止，此时找到了一个单词，并能得到单词的<strong>起止位置</strong>。随后，根据单词的起止位置，可以将该单词逆序放到新字符串当中。如此循环多次，直到遍历完原字符串，就能得到翻转后的结果。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>，其中 <code>N</code> 为字符数组的长度。</li><li>空间复杂度：<code>O(N)</code>。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/344-leetcode-reverse-string</guid><title>344. 反转字符串</title><description>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 s 的形式给出。</description><link>https://derekcoder.github.io/posts/344-leetcode-reverse-string</link><pubDate>Wed, 15 Dec 2021 20:41:00 +0800</pubDate><content:encoded><![CDATA[<h1>344. 反转字符串</h1><p><a href="https://leetcode-cn.com/problems/reverse-string/">力扣</a></p><blockquote><p>编写一个函数，其作用是将输入的字符串反转过来。输入字符串以字符数组 <code>s</code> 的形式给出。<br /><br />不要给另外的数组分配额外的空间，你必须原地修改输入数组、使用 <code>O(1)</code> 的额外空间解决这一问题。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：s = ["h","e","l","l","o"]
 输出：["o","l","l","e","h"]
 </code></pre><p>示例二：</p><pre data-language="undefined"><code>
 输入：s = ["H","a","n","n","a","h"]
 输出：["h","a","n","n","a","H"]
-</code></pre><h2>解题方法：</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+</code></pre><h2>解题方法：双指针</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reverseString</span><span class="hljs-params">(<span class="hljs-number">_</span> s: <span class="hljs-keyword">inout</span> [Character])</span></span> {
         <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = s.<span class="hljs-built_in">count</span>
         <span class="hljs-keyword">guard</span> <span class="hljs-built_in">count</span> &gt;= <span class="hljs-number">2</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> }
@@ -18,7 +48,7 @@
         }
     }
 }
-</code></pre><h3>解题思路: 双指针</h3><p>对于长度为 <code>N</code> 的待被反转的字符数组，我们可以观察反转前后下标的变化，假设反转前字符数组为 <code>s[0]</code> <code>s[1]</code> <code>s[2]</code> ... <code>s[N - 1]</code>，那么反转后字符数组为 <code>s[N - 1]</code> <code>s[N - 2]</code> ... <code>s[0]</code>。比较反转前后下标变化很容易得出 <code>s[i]</code> 的字符与 <code>s[N - 1 - i]</code> 的字符发生了交换的规律，因此我们可以得出如下双指针的解法：</p><p>将 <code>left</code> 指向字符数组首元素，<code>right</code> 指向字符数组尾元素。 当 <code>left</code> &lt; <code>right</code>： 交换 <code>s[left] </code>和 <code>s[right]</code>；</p><p><code>left</code> 指针右移一位，即 <code>left</code> = <code>left</code> + 1；</p><p><code>right</code> 指针左移一位，即 <code>right</code> = <code>right</code> - 1。 当 <code>left</code> &gt;= <code>right</code>，反转结束，返回字符数组即可。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>，其中 <code>N</code> 为字符数组的长度。一共执行了 <code>N/2</code> 次的交换。</li><li>空间复杂度：<code>O(1)</code>。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</guid><title>167. 两数之和 II - 输入有序数组</title><description>给定一个已按照非递减顺序排列的整数数组 numbers，请你从数组中找出两个数满足相加之和等于目标数 target。</description><link>https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</link><pubDate>Wed, 15 Dec 2021 18:54:00 +0800</pubDate><content:encoded><![CDATA[<h1>167. 两数之和 II - 输入有序数组</h1><p><a href="https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/">力扣</a></p><blockquote><p>给定一个已按照<strong>非递减顺序排列</strong>的整数数组 <code>numbers</code> ，请你从数组中找出两个数满足相加之和等于目标数 <code>target</code>。<br /><br />函数应该以长度为 <code>2</code> 的整数数组的形式返回这两个数的下标值。<code>numbers</code> 的下标 从 <code>1</code> 开始计数 ，所以答案数组应当满足 <code>1 &lt;= answer[0] &lt; answer[1] &lt;= numbers.length</code>。<br /><br />你可以假设每个输入<strong>只对应唯一的答案</strong>，而且你<strong>不可以</strong>重复使用相同的元素。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+</code></pre><h3>解题思路</h3><p>对于长度为 <code>N</code> 的待被反转的字符数组，我们可以观察反转前后下标的变化，假设反转前字符数组为 <code>s[0]</code> <code>s[1]</code> <code>s[2]</code> ... <code>s[N - 1]</code>，那么反转后字符数组为 <code>s[N - 1]</code> <code>s[N - 2]</code> ... <code>s[0]</code>。比较反转前后下标变化很容易得出 <code>s[i]</code> 的字符与 <code>s[N - 1 - i]</code> 的字符发生了交换的规律，因此我们可以得出如下双指针的解法：</p><p>将 <code>left</code> 指向字符数组首元素，<code>right</code> 指向字符数组尾元素。 当 <code>left</code> &lt; <code>right</code>： 交换 <code>s[left] </code>和 <code>s[right]</code>；</p><p><code>left</code> 指针右移一位，即 <code>left</code> = <code>left</code> + 1；</p><p><code>right</code> 指针左移一位，即 <code>right</code> = <code>right</code> - 1。 当 <code>left</code> &gt;= <code>right</code>，反转结束，返回字符数组即可。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>，其中 <code>N</code> 为字符数组的长度。一共执行了 <code>N/2</code> 次的交换。</li><li>空间复杂度：<code>O(1)</code>。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</guid><title>167. 两数之和 II - 输入有序数组</title><description>给定一个已按照非递减顺序排列的整数数组 numbers，请你从数组中找出两个数满足相加之和等于目标数 target。</description><link>https://derekcoder.github.io/posts/167-leetcode-two-sum-ii</link><pubDate>Wed, 15 Dec 2021 18:54:00 +0800</pubDate><content:encoded><![CDATA[<h1>167. 两数之和 II - 输入有序数组</h1><p><a href="https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/">力扣</a></p><blockquote><p>给定一个已按照<strong>非递减顺序排列</strong>的整数数组 <code>numbers</code> ，请你从数组中找出两个数满足相加之和等于目标数 <code>target</code>。<br /><br />函数应该以长度为 <code>2</code> 的整数数组的形式返回这两个数的下标值。<code>numbers</code> 的下标 从 <code>1</code> 开始计数 ，所以答案数组应当满足 <code>1 &lt;= answer[0] &lt; answer[1] &lt;= numbers.length</code>。<br /><br />你可以假设每个输入<strong>只对应唯一的答案</strong>，而且你<strong>不可以</strong>重复使用相同的元素。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：numbers = [2,7,11,15], target = 9
 输出：[1,2]
 解释：2 与 7 之和等于目标数 9 。因此 index1 = 1, index2 = 2 。
