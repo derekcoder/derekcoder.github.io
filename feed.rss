@@ -1,4 +1,39 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Wed, 15 Dec 2021 21:40:30 +0800</lastBuildDate><pubDate>Wed, 15 Dec 2021 21:40:30 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</guid><title>557. 反转字符串中的单词 III</title><description>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</description><link>https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</link><pubDate>Wed, 15 Dec 2021 21:32:00 +0800</pubDate><content:encoded><![CDATA[<h1>557. 反转字符串中的单词 III</h1><p><a href="https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/">力扣</a></p><blockquote><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。在字符串中，每个单词由单个空格分隔，并且字符串中不会有任何额外的空格。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Thu, 16 Dec 2021 13:47:38 +0800</lastBuildDate><pubDate>Thu, 16 Dec 2021 13:47:38 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/876-leetcode-middle-of-the-linked-list</guid><title>876. 链表的中间结点</title><description>给定一个头结点为 head 的非空单链表，返回链表的中间结点。</description><link>https://derekcoder.github.io/posts/876-leetcode-middle-of-the-linked-list</link><pubDate>Thu, 16 Dec 2021 13:41:00 +0800</pubDate><content:encoded><![CDATA[<h1>876. 链表的中间结点</h1><p><a href="https://leetcode-cn.com/problems/middle-of-the-linked-list/">力扣</a></p><blockquote><p>给定一个头结点为 <code>head</code> 的非空单链表，返回链表的中间结点。<br /><br />如果有两个中间结点，则返回第二个中间结点。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：[1,2,3,4,5]
+输出：此列表中的结点 3 (序列化形式：[3,4,5])
+返回的结点值为 3 。 (测评系统对该结点序列化表述是 [3,4,5])。
+注意，我们返回了一个 ListNode 类型的对象 ans，这样：
+ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next = NULL.
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：[1,2,3,4,5,6]
+输出：此列表中的结点 4 (序列化形式：[4,5,6])
+由于该列表有两个中间结点，值分别为 3 和 4，我们返回第二个结点。
+</code></pre><h2>解题方法：快慢指针法</h2><pre data-language="swift"><code><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init() { self.val = 0; self.next = nil; }
+ *     public init(_ val: Int) { self.val = val; self.next = nil; }
+ *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+ * }
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">middleNode</span><span class="hljs-params">(<span class="hljs-number">_</span> head: ListNode?)</span></span> -&gt; <span class="hljs-type">ListNode?</span> {
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> head = head <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span> }
+        
+        <span class="hljs-keyword">var</span> fast: <span class="hljs-type">ListNode?</span> = head
+        <span class="hljs-keyword">var</span> slow: <span class="hljs-type">ListNode</span> = head
+        
+        <span class="hljs-keyword">while</span> fast?.next != <span class="hljs-literal">nil</span> {
+            fast = fast?.next?.next
+            slow = slow.next!
+        }
+        
+        <span class="hljs-keyword">return</span> slow
+    }
+}
+</code></pre><h3>解题思路</h3><p>用两个指针 <code>slow</code> 与 <code>fast</code> 一起遍历链表。<code>slow</code> 一次走一步，<code>fast</code> 一次走两步。那么当 fast 到达链表的末尾时，<code>slow</code> 必然位于中间。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>，其中 <code>N</code> 是给定链表的结点数目。</li><li>空间复杂度：<code>O(1)</code>，只需要常数空间存放 <code>slow</code> 和 <code>fast</code> 两个指针。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</guid><title>557. 反转字符串中的单词 III</title><description>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。</description><link>https://derekcoder.github.io/posts/557-leetcode-reverse-words-in-a-string-iii</link><pubDate>Wed, 15 Dec 2021 21:32:00 +0800</pubDate><content:encoded><![CDATA[<h1>557. 反转字符串中的单词 III</h1><p><a href="https://leetcode-cn.com/problems/reverse-words-in-a-string-iii/">力扣</a></p><blockquote><p>给定一个字符串，你需要反转字符串中每个单词的字符顺序，同时仍保留空格和单词的初始顺序。在字符串中，每个单词由单个空格分隔，并且字符串中不会有任何额外的空格。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入："Let's take LeetCode contest"
 输出："s'teL ekat edoCteeL tsetnoc"
 </code></pre><h2>解题方法：双指针</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
