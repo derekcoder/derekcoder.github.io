@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/3-leetcode-longest-substring-without-repeating-characters"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/3-leetcode-longest-substring-without-repeating-characters"/><meta name="og:url" content="https://derekcoder.github.io/posts/3-leetcode-longest-substring-without-repeating-characters"/><title>3. 无重复字符的最长子串 | DEREKCODER</title><meta name="twitter:title" content="3. 无重复字符的最长子串 | DEREKCODER"/><meta name="og:title" content="3. 无重复字符的最长子串 | DEREKCODER"/><meta name="description" content="给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。"/><meta name="twitter:description" content="给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。"/><meta name="og:description" content="给定一个字符串 s ，请你找出其中不含有重复字符的最长子串的长度。"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header><div class="wrapper"><a href="/" class="site-name">DEREKCODER</a><nav><ul><li><a href="/posts" class="selected">博客</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></nav></div></header><div class="wrapper"><article><div class="content"><h1>3. 无重复字符的最长子串</h1><p><a href="https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/">力扣</a></p><blockquote><p>给定一个字符串 <code>s</code> ，请你找出其中不含有重复字符的 <strong>最长子串</strong> 的长度。<br /><br /><code>s</code> 由英文字母、数字、符号和空格组成<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入: s = "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入: s = "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+</code></pre><p>示例三：</p><pre data-language="undefined"><code>
+输入: s = "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+</code></pre><p>示例四：</p><pre data-language="undefined"><code>
+输入: s = ""
+输出: 0
+</code></pre><h2>解题方法：滑动窗口</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getChar</span><span class="hljs-params">(<span class="hljs-number">_</span> s: String, at offset: Int)</span></span> -&gt; <span class="hljs-type">Character</span> {
+        <span class="hljs-keyword">let</span> index = s.index(s.startIndex, offsetBy: offset)
+        <span class="hljs-keyword">return</span> s[index]
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">lengthOfLongestSubstring</span><span class="hljs-params">(<span class="hljs-number">_</span> s: String)</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">let</span> length = s.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">guard</span> length &gt;= <span class="hljs-number">2</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> length }
+        
+        <span class="hljs-keyword">var</span> <span class="hljs-built_in">map</span> = [<span class="hljs-type">Character</span>: <span class="hljs-type">Int</span>]()
+        <span class="hljs-keyword">var</span> start = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> result = <span class="hljs-number">0</span>
+        
+        <span class="hljs-keyword">for</span> end <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;length {
+            <span class="hljs-keyword">let</span> char = getChar(s, at: end)
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> index = <span class="hljs-built_in">map</span>[char] {
+                start = <span class="hljs-built_in">max</span>(index, start)
+            }
+            
+            <span class="hljs-built_in">map</span>[char] = end + <span class="hljs-number">1</span>
+            result = <span class="hljs-built_in">max</span>(end - start + <span class="hljs-number">1</span>, result)
+        }
+        
+        <span class="hljs-keyword">return</span> result
+    }
+}
+</code></pre><h3>解题思路</h3><p>这道题主要用到思路是：<strong>滑动窗口</strong></p><p>什么是滑动窗口？</p><p>其实就是一个队列,比如例题中的 <code>abcabcbb</code>，进入这个队列（窗口）为 <code>abc</code> 满足题目要求，当再进入 a，队列变成了 <code>abca</code>，这时候不满足要求。所以，我们要移动这个队列！</p><p>如何移动？</p><p>我们只要把队列的左边的元素移出就行了，直到满足题目要求！</p><p>一直维持这样的队列，找出队列出现最长的长度时候，求出解！</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>，其中 <code>N</code> 是字符串 <code>s</code> 长度。</li><li>空间复杂度：<code>O(∣Σ∣)</code>，其中 <code>Σ</code> 表示字符集（即字符串中可以出现的字符），<code>∣Σ∣</code> 表示字符集的大小。在本题中没有明确说明字符集，因此可以默认为所有 <code>ASCII</code> 码在 [0,128) 内的字符，即 <code>∣Σ∣</code>=128。我们需要用到哈希集合来存储出现过的字符，而字符最多有 <code>∣Σ∣</code> 个，因此空间复杂度为 <code>O(∣Σ∣)</code>。</li></ul></div><div class="metadata"><ul class="tag-list"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-5"><a href="/tags/中等">中等</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-0"><a href="/tags/字符串">字符串</a></li><li class="variant-0"><a href="/tags/散列表">散列表</a></li><li class="variant-0"><a href="/tags/滑动窗口">滑动窗口</a></li></ul><span class="date">发布于 2021-12-17</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
