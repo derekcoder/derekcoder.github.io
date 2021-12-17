@@ -114,7 +114,7 @@ blockquote p,
   border-left: 4px solid #19a198;
 }
 
-article .metadata { margin-bottom: 23px; }
+article .metadata { margin-bottom: 20px; }
 article .date { color: #555; }
 
 .tag-list { display: inline-block; margin-right: 5px; }
@@ -125,8 +125,10 @@ article .date { color: #555; }
     /*    background-color: #000;*/
     color: #ddd;
     padding: 4px 6px;
+    font-size: 0.85em;
     border-radius: 5px;
     margin-right: 5px;
+    margin-bottom: 5px;
 }
 
 .tag-list .variant-0 { background-color: #000; }
@@ -331,5 +333,19 @@ article li code,
   .wrapper {
     padding: 20px;
     background-color: var(--content-background-color-light);
+  }
+
+  article .tag-list { 
+    display: block; 
+  }
+  
+  article .metadata {
+    margin-bottom: 0px;
+  }
+  
+  article .date {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 0.85em;
   }
 }
