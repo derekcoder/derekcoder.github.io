@@ -155,6 +155,7 @@ article .date {
     margin-top: 3px;
     margin-bottom: 3px;
     font-size: 0.95em;
+    line-height: 21px;
 }
 
 .tags .variant-0 { background-color: #000; }
@@ -164,6 +165,8 @@ article .date {
 .tags .variant-4 { background-color: #49a191; }
 .tags .variant-5 { background-color: #f4bc41; }
 .tags .variant-6 { background-color: #eb445a; }
+.tags .variant-7 { background-color: #de5d43; }
+.tags .variant-8 { background-color: #1f3fc9; }
 
 .tags a,
 .tag a {
@@ -371,6 +374,7 @@ article li code,
 
   article .tags li, .tag {
     font-size: 0.85em;
+    line-height: 19px;
   }
   
   article .metadata {
