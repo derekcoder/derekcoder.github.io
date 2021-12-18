@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/567-leetcode-permutation-in-string"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/567-leetcode-permutation-in-string"/><meta name="og:url" content="https://derekcoder.github.io/posts/567-leetcode-permutation-in-string"/><title>567. 字符串的排列 | DEREKCODER</title><meta name="twitter:title" content="567. 字符串的排列 | DEREKCODER"/><meta name="og:title" content="567. 字符串的排列 | DEREKCODER"/><meta name="description" content="给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true；否则，返回 false。"/><meta name="twitter:description" content="给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true；否则，返回 false。"/><meta name="og:description" content="给你两个字符串 s1 和 s2 ，写一个函数来判断 s2 是否包含 s1 的排列。如果是，返回 true；否则，返回 false。"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">博客</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>567. 字符串的排列</h1><blockquote><p>给你两个字符串 <code>s1</code> 和 <code>s2</code> ，写一个函数来判断 <code>s2</code> 是否包含 <code>s1</code> 的排列。如果是，返回 <code>true</code> ；否则，返回 <code>false</code>。<br /><br />换句话说，<code>s1</code> 的排列之一是 <code>s2</code> 的 子串 。<br /></p></blockquote><blockquote><p>提示：<br /><code>s1</code> 和 <code>s2</code> 仅包含小写字母</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：s1 = "ab" s2 = "eidbaooo"
+输出：true
+解释：s2 包含 s1 的排列之一 ("ba").
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：s1= "ab" s2 = "eidboaoo"
+输出：false
+</code></pre><h2>解题方法：双指针（滑动窗口）</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">getChar</span><span class="hljs-params">(<span class="hljs-number">_</span> s: String, at offset: Int)</span></span> -&gt; <span class="hljs-type">Character</span> {
+        <span class="hljs-keyword">return</span> s[s.index(s.startIndex, offsetBy: offset)]    
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">checkInclusion</span><span class="hljs-params">(<span class="hljs-number">_</span> s1: String, <span class="hljs-number">_</span> s2: String)</span></span> -&gt; <span class="hljs-type">Bool</span> {
+        <span class="hljs-keyword">let</span> s1Length = s1.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">let</span> s2Length = s2.<span class="hljs-built_in">count</span>
+        
+        <span class="hljs-keyword">var</span> s1Freq = [<span class="hljs-type">Character</span>: <span class="hljs-type">Int</span>]()
+        <span class="hljs-keyword">var</span> winFreq = [<span class="hljs-type">Character</span>: <span class="hljs-type">Int</span>]()
+        <span class="hljs-keyword">var</span> s1Count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> winCount = <span class="hljs-number">0</span>
+
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;s1Length {
+            <span class="hljs-keyword">let</span> char = getChar(s1, at: i)
+            s1Freq[char, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span>] += <span class="hljs-number">1</span>
+        }
+        
+        <span class="hljs-keyword">for</span> (<span class="hljs-number">_</span>, value) <span class="hljs-keyword">in</span> s1Freq {
+            s1Count += <span class="hljs-number">1</span>
+        }
+        
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">right</span> &lt; s2Length {
+            <span class="hljs-keyword">let</span> rightChar = getChar(s2, at: <span class="hljs-keyword">right</span>)
+            <span class="hljs-keyword">if</span> s1Freq[rightChar] != <span class="hljs-literal">nil</span> {
+                winFreq[rightChar, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span>] += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">if</span> winFreq[rightChar] == s1Freq[rightChar] {
+                    winCount += <span class="hljs-number">1</span>
+                }
+            }
+            
+            <span class="hljs-keyword">right</span> += <span class="hljs-number">1</span>
+            
+            <span class="hljs-keyword">while</span> s1Count == winCount {
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span> == s1Length {
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+                }
+                <span class="hljs-keyword">let</span> leftChar = getChar(s2, at: <span class="hljs-keyword">left</span>)
+                <span class="hljs-keyword">if</span> s1Freq[leftChar] != <span class="hljs-literal">nil</span> {
+                    winFreq[leftChar, <span class="hljs-keyword">default</span>: <span class="hljs-number">0</span>] -= <span class="hljs-number">1</span>
+                    <span class="hljs-keyword">if</span> winFreq[leftChar]! &lt; s1Freq[leftChar]! {
+                        winCount -= <span class="hljs-number">1</span>
+                    }
+                }
+                <span class="hljs-keyword">left</span> += <span class="hljs-number">1</span>
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>
+    }
+}
+</code></pre><h3>解题思路</h3><ul><li>排列不讲究顺序，但是字符出现的 <strong>种类</strong> 和 <strong>次数</strong> 要恰好对应相等；</li><li>思考可以使用双指针（一前一后、交替向右边移动）的原因：少考虑很多暴力解法须要考虑的子区间，已经得到了一部分子区间的信息以后，很多子区间都不必要考虑，因此根据特定的情况右指针、左指针交替向右移动，从时间复杂度 <code>O(N^2)</code> 降到 <code>O(N)</code>；</li><li>由于我们只关心子区间里的元素的种数和各个字符出现的次数。因此须要统计字符串 <code>s1</code> 出现的字符的种数和次数，和在字符串 <code>s2</code> 上的两个变量所确定的滑动窗口中出现的字符种数和次数；</li><li>还须要设计一个变量 <code>winCount</code>，表示滑动窗口在 <code>s2</code> 上滑动的时候，出现在 <code>s1</code> 中的字符的种类数，规则如下：<ul><li>如果某一个字符出现的次数恰好等于 <code>s1</code> 中对应字符出现的次数，<code>winCount += 1</code>；</li><li>在左边界向右移动的过程当中，某一个字符对应的次数减少以后，恰好小于了 s1 对应的字符出现的次数，<code>winCount -= 1</code>；</li><li>当滑动窗口中出现的字符种类数和 <code>s1</code> 中出现的字符种类数相等（根据 <code>winCount</code> 的定义，对应次数也相等），并且 <code>s2</code> 上的滑动窗口的长度等于字符串 <code>s1</code> 的长度的时候，就找到了 <code>s1</code> 的一个排列。</li></ul></li></ul><p>注意：请大家特别留意 <code>winCount</code> 的含义：滑动窗口中的字符要满足字符出现的次数 大于等于 <code>s1</code> 中对应字符出现的次数的时候才加 <code>1</code>，<code>winCount</code> 不仅统计了种类，还代表了次数。使得我们可以通过 <code>winCount</code> 的数值去了解整个滑动窗口的信息。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(∣s1∣+∣s2∣+∣Σ∣)</code>； 这里 <code>∣s1∣</code> 表示字符串 <code>s1</code> 的长度，这里 <code>∣s2∣</code> 表示字符串 <code>s2</code> 的长度。<code>Σ</code> 表示字符集，即 <code>s1</code> 和 <code>s2</code> 中出现的所有的字符，<code>∣Σ∣</code> 是字符集的大小，取决于出现字符的最小 <code>ASCII</code> 值和最大 <code>ASCII</code> 值。</li></ul><ul><li>统计 s1 的频数数组：O(|s1|)O(∣s1∣)；<ul><li>计算 s1 中出现的字符种类遍历了频数数组一次：O(|Sigma|)O(∣Σ∣)；</li><li>双指针遍历了 s2 一次 O(|s2|)O(∣s2∣)。</li><li>空间复杂度：<code>O(∣Σ∣)</code>。</li></ul></li></ul><h2>引用链接</h2><ul><li><a href="https://leetcode-cn.com/problems/permutation-in-string/">力扣题目</a></li><li><a href="https://leetcode-cn.com/problems/permutation-in-string/solution/zi-fu-chuan-de-pai-lie-by-leetcode-q6tp/">字符串的排列解法</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-5"><a href="/tags/中等">中等</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-0"><a href="/tags/字符串">字符串</a></li><li class="variant-0"><a href="/tags/散列表">散列表</a></li><li class="variant-0"><a href="/tags/双指针">双指针</a></li><li class="variant-0"><a href="/tags/滑动窗口">滑动窗口</a></li></ul><span class="date">发布于 2021年12月18日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
