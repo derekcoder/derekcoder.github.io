@@ -134,7 +134,10 @@ blockquote p,
 }
 
 article .metadata { margin-bottom: 20px; }
-article .date { color: #555; }
+article .date { 
+  color: #555; 
+  font-size: 0.95em;
+}
 
 .tags { 
   display: inline-block; 
