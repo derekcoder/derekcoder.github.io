@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/swift-array-queue"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/swift-array-queue"/><meta name="og:url" content="https://derekcoder.github.io/posts/swift-array-queue"/><title>Swift 实现队列（一）：数组队列 | DEREKCODER</title><meta name="twitter:title" content="Swift 实现队列（一）：数组队列 | DEREKCODER"/><meta name="og:title" content="Swift 实现队列（一）：数组队列 | DEREKCODER"/><meta name="description" content="怎么使用 Swift 实现一个数组队列？"/><meta name="twitter:description" content="怎么使用 Swift 实现一个数组队列？"/><meta name="og:description" content="怎么使用 Swift 实现一个数组队列？"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">博客</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>Swift 实现队列（一）：数组队列</h1><blockquote><p>队列是一种数据结构，一种<strong>操作受限</strong>的线性表结构。它只支持<strong>入队</strong>（enqueue）和<strong>出队</strong>（dequeue）操作，数据流动遵循<strong>先进先出</strong>（First In， First Out）的规则。</p></blockquote><p>我们既可以用数组实现队列，也可以用链表实现队列。用数组实现的队列叫做数组队列，用链表实现的队列叫做链表队列。</p><h2>如何用 Swift 实现一个数组队列？</h2><h3>基础版本</h3><pre data-language="swift"><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-type">T</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span>
+    <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> { <span class="hljs-keyword">get</span> }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ArrayQueue</span>&lt;<span class="hljs-title">T</span>&gt;: <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> items: [<span class="hljs-type">T</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(<span class="hljs-number">_</span> items: [<span class="hljs-type">T</span>] = []) { <span class="hljs-keyword">self</span>.items = items }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span> {
+        items.append(item)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span> {
+        isEmpty ? <span class="hljs-literal">nil</span> : items.removeFirst()
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> {
+        items.isEmpty
+    }
+}
+</code></pre><h3>添加友好输出</h3><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">ArrayQueue</span>: <span class="hljs-title">CustomStringConvertible</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> description: <span class="hljs-type">String</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">"&lt;- \(items) &lt;-"</span>
+    }
+}
+</code></pre><pre data-language="swift"><code><span class="hljs-keyword">var</span> queue = <span class="hljs-type">ArrayQueue</span>&lt;<span class="hljs-type">String</span>&gt;()
+queue.enqueue(<span class="hljs-string">"Ray"</span>)
+queue.enqueue(<span class="hljs-string">"Brian"</span>)
+queue.enqueue(<span class="hljs-string">"Eric"</span>)
+<span class="hljs-built_in">print</span>(queue)
+<span class="hljs-comment">// &lt;- ["Ray", "Brian", "Eric"] &lt;-</span>
+</code></pre><h3>添加使用数组字面量初始化</h3><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">extension</span> <span class="hljs-title">ArrayQueue</span>: <span class="hljs-title">ExpressibleByArrayLiteral</span> </span>{
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(arrayLiteral elements: <span class="hljs-type">T</span>...) {
+        <span class="hljs-keyword">self</span>.<span class="hljs-keyword">init</span>(elements)
+    }
+}
+</code></pre><pre data-language="swift"><code><span class="hljs-keyword">var</span> queue: <span class="hljs-type">ArrayQueue</span> = [<span class="hljs-string">"Ray"</span>, <span class="hljs-string">"Brian"</span>, <span class="hljs-string">"Eric"</span>]
+<span class="hljs-built_in">print</span>(queue)
+<span class="hljs-comment">// &lt;- ["Ray", "Brian", "Eric"] &lt;-</span>
+</code></pre><h2>分析复杂度</h2><ul><li>时间复杂度<ul><li>enqueue<ul><li>平均/最好：<code>O(1)</code></li><li>最坏：<code>O(n)</code></li></ul></li><li>dequeue<ul><li>平均/最好/最坏：<code>O(n)</code></li></ul></li></ul></li></ul><ul><li>空间复杂度：<code>O(n)</code></li></ul><h2>引用链接</h2><ul><li><a href="https://github.com/raywenderlich/swift-algorithm-club/tree/master/Queue">Swift Algorithm Club: Queue</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-7"><a href="/tags/swift">Swift</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/队列">队列</a></li></ul><span class="date">发布于 2021年12月19日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
