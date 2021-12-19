@@ -9,6 +9,7 @@
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> items: [<span class="hljs-type">T</span>]
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(<span class="hljs-number">_</span> items: [<span class="hljs-type">T</span>] = []) { <span class="hljs-keyword">self</span>.items = items }
     
+    <span class="hljs-meta">@discardableResult</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span> {
         items.append(item)
         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>

@@ -1,4 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 19 Dec 2021 15:24:59 +0800</lastBuildDate><pubDate>Sun, 19 Dec 2021 15:24:59 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/swift-array-queue</guid><title>Swift 实现队列（一）：数组队列</title><description>怎么使用 Swift 实现一个数组队列？</description><link>https://derekcoder.github.io/posts/swift-array-queue</link><pubDate>Sun, 19 Dec 2021 11:30:00 +0800</pubDate><content:encoded><![CDATA[<h1>Swift 实现队列（一）：数组队列</h1><blockquote><p>队列是一种数据结构，一种<strong>操作受限</strong>的线性表结构。它只支持<strong>入队</strong>（enqueue）和<strong>出队</strong>（dequeue）操作，数据流动遵循<strong>先进先出</strong>（First In， First Out）的规则。</p></blockquote><p>我们既可以用数组实现队列，也可以用链表实现队列。用数组实现的队列叫做数组队列，用链表实现的队列叫做链表队列。</p><h2>如何用 Swift 实现一个数组队列？</h2><h3>基础版本</h3><pre data-language="swift"><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">Queue</span> </span>{
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>en</language><lastBuildDate>Sun, 19 Dec 2021 17:09:17 +0800</lastBuildDate><pubDate>Sun, 19 Dec 2021 17:09:17 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/733-leetcode-flood-fill</guid><title>733. 图像渲染</title><description>有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。</description><link>https://derekcoder.github.io/posts/733-leetcode-flood-fill</link><pubDate>Sun, 19 Dec 2021 16:43:00 +0800</pubDate><content:encoded><![CDATA[<h1>733. 图像渲染</h1><blockquote><p>有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 <code>0</code> 到 <code>65535</code> 之间。<br /><br />给你一个坐标 <code>(sr, sc)</code> 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 <code>newColor</code>，让你重新上色这幅图像。<br /><br />为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。<br /><br />最后返回经过上色渲染后的图像。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+输出: [[2,2,2],[2,2,0],[2,0,1]]
+解析: 
+在图像的正中间，(坐标(sr,sc)=(1,1)),
+在路径上所有符合条件的像素点的颜色都被更改成2。
+注意，右下角的像素没有更改为2，
+因为它不是在上下左右四个方向上与初始点相连的像素点。
+</code></pre><h2>解题方法一：BFS</h2><pre data-language="swift"><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">Queue</span> </span>{
     <span class="hljs-keyword">associatedtype</span> <span class="hljs-type">T</span>
     <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span>
     <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span>
@@ -9,6 +19,93 @@
     <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> items: [<span class="hljs-type">T</span>]
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(<span class="hljs-number">_</span> items: [<span class="hljs-type">T</span>] = []) { <span class="hljs-keyword">self</span>.items = items }
     
+    <span class="hljs-meta">@discardableResult</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span> {
+        items.append(item)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span> {
+        isEmpty ? <span class="hljs-literal">nil</span> : items.removeFirst()
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> {
+        items.isEmpty
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">floodFill</span><span class="hljs-params">(<span class="hljs-number">_</span> image: [[Int]], <span class="hljs-number">_</span> sr: Int, <span class="hljs-number">_</span> sc: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> -&gt; [[<span class="hljs-type">Int</span>]] {
+        <span class="hljs-keyword">let</span> color = image[sr][sc]
+        <span class="hljs-keyword">guard</span> color != newColor <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> image }
+        
+        <span class="hljs-keyword">var</span> image = image
+        <span class="hljs-keyword">var</span> queue = <span class="hljs-type">ArrayQueue</span>&lt;(<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>)&gt;()
+        <span class="hljs-keyword">let</span> dx = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]
+        <span class="hljs-keyword">let</span> dy = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]
+        
+        queue.enqueue((sr, sc))
+        image[sr][sc] = newColor
+        
+        <span class="hljs-keyword">while</span> !queue.isEmpty {
+            <span class="hljs-keyword">let</span> cell = queue.dequeue()!
+            
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-number">4</span> {
+                <span class="hljs-keyword">let</span> mx = cell.<span class="hljs-number">0</span> + dx[i]
+                <span class="hljs-keyword">let</span> my = cell.<span class="hljs-number">1</span> + dy[i]
+                <span class="hljs-keyword">if</span> mx &gt;= <span class="hljs-number">0</span> &amp;&amp; mx &lt; image.<span class="hljs-built_in">count</span> &amp;&amp; my &gt;= <span class="hljs-number">0</span> &amp;&amp; my &lt; image[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> &amp;&amp; image[mx][my] == color {
+                    queue.enqueue((mx, my))
+                    image[mx][my] = newColor
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> image
+    }
+}
+</code></pre><h3>解题思路</h3><p>我们从给定的起点开始，进行广度优先搜索。每次搜索到一个方格时，如果其与初始位置的方格颜色相同，就将该方格加入队列，并将该方格的颜色更新，以防止重复入队。</p><p>注意：因为初始位置的颜色会被修改，所以我们需要保存初始位置的颜色，以便于之后的更新操作。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。最坏情况下需要遍历所有的方格一次。</li><li>空间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。主要为队列的开销。</li></ul><h2>解题方法二：DFS</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-keyword">var</span> image: [[<span class="hljs-type">Int</span>]]!
+    <span class="hljs-keyword">let</span> dx = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">let</span> dy = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-number">_</span> x: Int, <span class="hljs-number">_</span> y: Int, <span class="hljs-number">_</span> color: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> {
+        <span class="hljs-keyword">if</span> image[x][y] == color {
+            image[x][y] = newColor
+            
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-number">4</span> {
+                <span class="hljs-keyword">let</span> mx = x + dx[i]
+                <span class="hljs-keyword">let</span> my = y + dy[i]
+                
+                <span class="hljs-keyword">if</span> mx &gt;= <span class="hljs-number">0</span> &amp;&amp; mx &lt; image.<span class="hljs-built_in">count</span> &amp;&amp; my &gt;= <span class="hljs-number">0</span> &amp;&amp; my &lt; image[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> {
+                    dfs(mx, my, color, newColor)
+                }
+            }
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">floodFill</span><span class="hljs-params">(<span class="hljs-number">_</span> image: [[Int]], <span class="hljs-number">_</span> sr: Int, <span class="hljs-number">_</span> sc: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> -&gt; [[<span class="hljs-type">Int</span>]] {
+        <span class="hljs-keyword">let</span> color = image[sr][sc]
+        <span class="hljs-keyword">guard</span> color != newColor <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> image }
+        
+        <span class="hljs-keyword">self</span>.image = image
+        
+        dfs(sr, sc, color, newColor)
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>.image
+    }
+}
+</code></pre><h3>解题思路</h3><p>我们从给定的起点开始，进行深度优先搜索。每次搜索到一个方格时，如果其与初始位置的方格颜色相同，就将该方格的颜色更新，以防止重复搜索；如果不相同，则进行回溯。</p><p>注意：因为初始位置的颜色会被修改，所以我们需要保存初始位置的颜色，以便于之后的更新操作。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。最坏情况下需要遍历所有的方格一次。</li><li>空间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。主要为栈空间的开销。</li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/swift-array-queue</guid><title>Swift 实现队列（一）：数组队列</title><description>怎么使用 Swift 实现一个数组队列？</description><link>https://derekcoder.github.io/posts/swift-array-queue</link><pubDate>Sun, 19 Dec 2021 11:30:00 +0800</pubDate><content:encoded><![CDATA[<h1>Swift 实现队列（一）：数组队列</h1><blockquote><p>队列是一种数据结构，一种<strong>操作受限</strong>的线性表结构。它只支持<strong>入队</strong>（enqueue）和<strong>出队</strong>（dequeue）操作，数据流动遵循<strong>先进先出</strong>（First In， First Out）的规则。</p></blockquote><p>我们既可以用数组实现队列，也可以用链表实现队列。用数组实现的队列叫做数组队列，用链表实现的队列叫做链表队列。</p><h2>如何用 Swift 实现一个数组队列？</h2><h3>基础版本</h3><pre data-language="swift"><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-type">T</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span>
+    <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> { <span class="hljs-keyword">get</span> }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ArrayQueue</span>&lt;<span class="hljs-title">T</span>&gt;: <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> items: [<span class="hljs-type">T</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(<span class="hljs-number">_</span> items: [<span class="hljs-type">T</span>] = []) { <span class="hljs-keyword">self</span>.items = items }
+    
+    <span class="hljs-meta">@discardableResult</span>
     <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span> {
         items.append(item)
         <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>

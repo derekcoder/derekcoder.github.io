@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/733-leetcode-flood-fill"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/733-leetcode-flood-fill"/><meta name="og:url" content="https://derekcoder.github.io/posts/733-leetcode-flood-fill"/><title>733. 图像渲染 | DEREKCODER</title><meta name="twitter:title" content="733. 图像渲染 | DEREKCODER"/><meta name="og:title" content="733. 图像渲染 | DEREKCODER"/><meta name="description" content="有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。"/><meta name="twitter:description" content="有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。"/><meta name="og:description" content="有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 0 到 65535 之间。"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">博客</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>733. 图像渲染</h1><blockquote><p>有一幅以二维整数数组表示的图画，每一个整数表示该图画的像素值大小，数值在 <code>0</code> 到 <code>65535</code> 之间。<br /><br />给你一个坐标 <code>(sr, sc)</code> 表示图像渲染开始的像素值（行 ，列）和一个新的颜色值 <code>newColor</code>，让你重新上色这幅图像。<br /><br />为了完成上色工作，从初始坐标开始，记录初始坐标的上下左右四个方向上像素值与初始坐标相同的相连像素点，接着再记录这四个方向上符合条件的像素点与他们对应四个方向上像素值与初始坐标相同的相连像素点，……，重复该过程。将所有有记录的像素点的颜色值改为新的颜色值。<br /><br />最后返回经过上色渲染后的图像。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+输出: [[2,2,2],[2,2,0],[2,0,1]]
+解析: 
+在图像的正中间，(坐标(sr,sc)=(1,1)),
+在路径上所有符合条件的像素点的颜色都被更改成2。
+注意，右下角的像素没有更改为2，
+因为它不是在上下左右四个方向上与初始点相连的像素点。
+</code></pre><h2>解题方法一：BFS</h2><pre data-language="swift"><code><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">protocol</span> <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">associatedtype</span> <span class="hljs-type">T</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span>
+    <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span>
+    <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> { <span class="hljs-keyword">get</span> }
+}
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">ArrayQueue</span>&lt;<span class="hljs-title">T</span>&gt;: <span class="hljs-title">Queue</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> items: [<span class="hljs-type">T</span>]
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">init</span>(<span class="hljs-number">_</span> items: [<span class="hljs-type">T</span>] = []) { <span class="hljs-keyword">self</span>.items = items }
+    
+    <span class="hljs-meta">@discardableResult</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">enqueue</span><span class="hljs-params">(<span class="hljs-number">_</span> item: T)</span></span> -&gt; <span class="hljs-type">Bool</span> {
+        items.append(item)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">mutating</span> <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dequeue</span><span class="hljs-params">()</span></span> -&gt; <span class="hljs-type">T?</span> {
+        isEmpty ? <span class="hljs-literal">nil</span> : items.removeFirst()
+    }
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">var</span> isEmpty: <span class="hljs-type">Bool</span> {
+        items.isEmpty
+    }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">floodFill</span><span class="hljs-params">(<span class="hljs-number">_</span> image: [[Int]], <span class="hljs-number">_</span> sr: Int, <span class="hljs-number">_</span> sc: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> -&gt; [[<span class="hljs-type">Int</span>]] {
+        <span class="hljs-keyword">let</span> color = image[sr][sc]
+        <span class="hljs-keyword">guard</span> color != newColor <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> image }
+        
+        <span class="hljs-keyword">var</span> image = image
+        <span class="hljs-keyword">var</span> queue = <span class="hljs-type">ArrayQueue</span>&lt;(<span class="hljs-type">Int</span>, <span class="hljs-type">Int</span>)&gt;()
+        <span class="hljs-keyword">let</span> dx = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]
+        <span class="hljs-keyword">let</span> dy = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]
+        
+        queue.enqueue((sr, sc))
+        image[sr][sc] = newColor
+        
+        <span class="hljs-keyword">while</span> !queue.isEmpty {
+            <span class="hljs-keyword">let</span> cell = queue.dequeue()!
+            
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-number">4</span> {
+                <span class="hljs-keyword">let</span> mx = cell.<span class="hljs-number">0</span> + dx[i]
+                <span class="hljs-keyword">let</span> my = cell.<span class="hljs-number">1</span> + dy[i]
+                <span class="hljs-keyword">if</span> mx &gt;= <span class="hljs-number">0</span> &amp;&amp; mx &lt; image.<span class="hljs-built_in">count</span> &amp;&amp; my &gt;= <span class="hljs-number">0</span> &amp;&amp; my &lt; image[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> &amp;&amp; image[mx][my] == color {
+                    queue.enqueue((mx, my))
+                    image[mx][my] = newColor
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> image
+    }
+}
+</code></pre><h3>解题思路</h3><p>我们从给定的起点开始，进行广度优先搜索。每次搜索到一个方格时，如果其与初始位置的方格颜色相同，就将该方格加入队列，并将该方格的颜色更新，以防止重复入队。</p><p>注意：因为初始位置的颜色会被修改，所以我们需要保存初始位置的颜色，以便于之后的更新操作。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。最坏情况下需要遍历所有的方格一次。</li><li>空间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。主要为队列的开销。</li></ul><h2>解题方法二：DFS</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-keyword">var</span> image: [[<span class="hljs-type">Int</span>]]!
+    <span class="hljs-keyword">let</span> dx = [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, -<span class="hljs-number">1</span>]
+    <span class="hljs-keyword">let</span> dy = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>]
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">dfs</span><span class="hljs-params">(<span class="hljs-number">_</span> x: Int, <span class="hljs-number">_</span> y: Int, <span class="hljs-number">_</span> color: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> {
+        <span class="hljs-keyword">if</span> image[x][y] == color {
+            image[x][y] = newColor
+            
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-number">4</span> {
+                <span class="hljs-keyword">let</span> mx = x + dx[i]
+                <span class="hljs-keyword">let</span> my = y + dy[i]
+                
+                <span class="hljs-keyword">if</span> mx &gt;= <span class="hljs-number">0</span> &amp;&amp; mx &lt; image.<span class="hljs-built_in">count</span> &amp;&amp; my &gt;= <span class="hljs-number">0</span> &amp;&amp; my &lt; image[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> {
+                    dfs(mx, my, color, newColor)
+                }
+            }
+        }
+    }
+    
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">floodFill</span><span class="hljs-params">(<span class="hljs-number">_</span> image: [[Int]], <span class="hljs-number">_</span> sr: Int, <span class="hljs-number">_</span> sc: Int, <span class="hljs-number">_</span> newColor: Int)</span></span> -&gt; [[<span class="hljs-type">Int</span>]] {
+        <span class="hljs-keyword">let</span> color = image[sr][sc]
+        <span class="hljs-keyword">guard</span> color != newColor <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> image }
+        
+        <span class="hljs-keyword">self</span>.image = image
+        
+        dfs(sr, sc, color, newColor)
+        
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">self</span>.image
+    }
+}
+</code></pre><h3>解题思路</h3><p>我们从给定的起点开始，进行深度优先搜索。每次搜索到一个方格时，如果其与初始位置的方格颜色相同，就将该方格的颜色更新，以防止重复搜索；如果不相同，则进行回溯。</p><p>注意：因为初始位置的颜色会被修改，所以我们需要保存初始位置的颜色，以便于之后的更新操作。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。最坏情况下需要遍历所有的方格一次。</li><li>空间复杂度：<code>O(n×m)</code>，其中 <code>n</code> 和 <code>m</code> 分别是二维数组的行数和列数。主要为栈空间的开销。</li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-0"><a href="/tags/字符串">字符串</a></li><li class="variant-0"><a href="/tags/bfs">BFS</a></li><li class="variant-0"><a href="/tags/dfs">DFS</a></li></ul><span class="date">发布于 2021年12月19日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
