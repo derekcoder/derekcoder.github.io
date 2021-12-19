@@ -136,7 +136,7 @@ blockquote p,
 article .metadata { margin-bottom: 20px; }
 article .date { 
   color: #555; 
-  font-size: 0.95em;
+  font-size: 0.85em;
 }
 
 .tags { 
@@ -384,6 +384,5 @@ article li code,
   article .date {
     display: block;
     margin-bottom: 10px;
-    font-size: 0.85em;
   }
 }
