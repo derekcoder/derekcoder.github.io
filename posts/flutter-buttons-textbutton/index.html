@@ -1,0 +1,111 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/flutter-buttons-textbutton"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/flutter-buttons-textbutton"/><meta name="og:url" content="https://derekcoder.github.io/posts/flutter-buttons-textbutton"/><title>文本按钮（TextButton） | DEREKCODER</title><meta name="twitter:title" content="文本按钮（TextButton） | DEREKCODER"/><meta name="og:title" content="文本按钮（TextButton） | DEREKCODER"/><meta name="description" content="介绍文本按钮的一些基本概念和使用方法。"/><meta name="twitter:description" content="介绍文本按钮的一些基本概念和使用方法。"/><meta name="og:description" content="介绍文本按钮的一些基本概念和使用方法。"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">文章</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>文本按钮（TextButton）</h1><p>按钮是 <code>Flutter</code> 中最常见的组件之一。其中的种类也很多:</p><ul><li><code>ButtonStyleButton</code><ul><li>文本按钮（<code>TextButton</code>）</li><li><code>ElevatedButton</code></li><li><code>OutlinedButton</code></li></ul></li></ul><ul><li><code>DropdownButton</code></li><li><code>IconButton</code></li><li><code>FloatingActionButton</code></li><li><code>PopupMenuButton</code></li></ul><p>今天我们主要来研究下文本按钮。文本按钮是一种使用文字（<code>Text</code>）和图标（<code>Icon</code>）作为内容的按钮。</p><h2>构建方法</h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> TextButton({
+    Key? key,
+    <span class="hljs-comment">// 文本按钮的内容，一般为文字（`Text`）或图标（`Icon`）</span>
+    required Widget child,
+    <span class="hljs-comment">// 点击回调函数</span>
+    required VoidCallback? onPressed,
+    <span class="hljs-comment">// 长按回调函数</span>
+    VoidCallback? onLongPress,
+    <span class="hljs-comment">// 文本按钮的样式</span>
+    ButtonStyle? style,
+    ValueChanged&lt;<span class="hljs-built_in">bool</span>&gt;? onHover,
+    ValueChanged&lt;<span class="hljs-built_in">bool</span>&gt;? onFocusChange,
+    FocusNode? focusNode,
+    <span class="hljs-built_in">bool</span> autofocus = <span class="hljs-keyword">false</span>,
+    Clip clipBehavior = Clip.none,
+  })
+</code></pre><pre data-language="dart"><code><span class="hljs-comment">// 快捷的构建方法</span>
+<span class="hljs-comment">// 创建一个左边是图标，右边是文字的文本按钮</span>
+<span class="hljs-keyword">factory</span> TextButton.icon({
+    Key? key,
+    required VoidCallback? onPressed,
+    VoidCallback? onLongPress,
+    ValueChanged&lt;<span class="hljs-built_in">bool</span>&gt;? onHover,
+    ValueChanged&lt;<span class="hljs-built_in">bool</span>&gt;? onFocusChange,
+    ButtonStyle? style,
+    FocusNode? focusNode,
+    <span class="hljs-built_in">bool</span>? autofocus,
+    Clip? clipBehavior,
+    required Widget icon,
+    required Widget label,
+  })
+</code></pre><p>我们平时主要会用到以下几个属性：</p><ul><li><code>required Widget child</code></li><li><code>required VoidCallback? onPressed</code></li><li><code>VoidCallback? onLongPress</code></li><li><code>ButtonStyle? style</code></li></ul><h2>怎么使用？</h2><pre data-language="dart"><code><span class="hljs-comment">// 一个可以点击的文本按钮</span>
+TextButton(
+  onPressed: () =&gt; <span class="hljs-built_in">print</span>(<span class="hljs-string">'onPressed'</span>),
+  onLongPress: () =&gt; <span class="hljs-built_in">print</span>(<span class="hljs-string">'onLongPress'</span>),
+  child: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">'Enabled'</span>),
+  style: TextButton.styleFrom(primary: Colors.red),
+)
+
+<span class="hljs-comment">// 一个不可以点击的文本按钮</span>
+<span class="hljs-keyword">const</span> TextButton(
+  onPressed: <span class="hljs-keyword">null</span>,
+  child: Text(<span class="hljs-string">'Disabled'</span>),
+)
+
+<span class="hljs-comment">// 一个由图标和文字组成的文本按钮</span>
+TextButton.icon(
+  onPressed: () {},
+  icon: <span class="hljs-keyword">const</span> Icon(Icons.email),
+  label: <span class="hljs-keyword">const</span> Text(<span class="hljs-string">'Send Email'</span>),
+)
+</code></pre><p>使用起来很直观明了，这里面主要复杂的就是按钮的样式 <code>style</code>。我们接下来就来详细了解下按钮的样式构成。</p><h2><code>ButtonStyle? style</code></h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> ButtonStyle({
+    <span class="hljs-keyword">this</span>.textStyle,
+    <span class="hljs-keyword">this</span>.backgroundColor,
+    <span class="hljs-keyword">this</span>.foregroundColor,
+    <span class="hljs-keyword">this</span>.overlayColor,
+    <span class="hljs-keyword">this</span>.shadowColor,
+    <span class="hljs-keyword">this</span>.elevation,
+    <span class="hljs-keyword">this</span>.padding,
+    <span class="hljs-keyword">this</span>.minimumSize,
+    <span class="hljs-keyword">this</span>.fixedSize,
+    <span class="hljs-keyword">this</span>.maximumSize,
+    <span class="hljs-keyword">this</span>.side,
+    <span class="hljs-keyword">this</span>.shape,
+    <span class="hljs-keyword">this</span>.mouseCursor,
+    <span class="hljs-keyword">this</span>.visualDensity,
+    <span class="hljs-keyword">this</span>.tapTargetSize,
+    <span class="hljs-keyword">this</span>.animationDuration,
+    <span class="hljs-keyword">this</span>.enableFeedback,
+    <span class="hljs-keyword">this</span>.alignment,
+    <span class="hljs-keyword">this</span>.splashFactory,
+  });
+</code></pre><ul><li>textStyle<ul><li><code>final MaterialStateProperty&lt;TextStyle?&gt;? textStyle;</code></li><li>按钮内容中的 <code>Text</code> 的样式。</li><li>但是对于 <code>Text</code> 的颜色，我们一般使用 <code>foregroundColor</code> 来设置。</li></ul></li></ul><ul><li>backgroundColor<ul><li><code>final MaterialStateProperty&lt;Color?&gt;? backgroundColor;</code></li><li>按钮的背景填充颜色</li></ul></li></ul><ul><li>foregroundColor<ul><li><code>final MaterialStateProperty&lt;Color?&gt;? foregroundColor;</code></li><li>按钮内容的颜色，按钮内容一般为文本（<code>Text</code>）或图标（<code>Icon</code>）。</li></ul></li></ul><ul><li>overlayColor<ul><li><code>final MaterialStateProperty&lt;Color?&gt;? overlayColor;</code></li><li>按钮高亮的颜色，当按钮的状态为按下（<code>pressed</code>）、<code>focused</code> 和 <code>hovered</code> 时显示</li></ul></li></ul><ul><li>shadowColor<ul><li><code>final MaterialStateProperty&lt;Color?&gt;? shadowColor;</code></li><li>按钮的阴影颜色</li></ul></li></ul><ul><li>elevation<ul><li><code>final MaterialStateProperty&lt;double?&gt;? elevation;</code></li><li>按钮的 <code>elevation</code> 值</li></ul></li></ul><ul><li>padding<ul><li><code>final MaterialStateProperty&lt;EdgeInsetsGeometry?&gt;? padding;</code></li><li>按钮的边框和内容之间的间距</li></ul></li></ul><ul><li>minimumSize<ul><li><code>final MaterialStateProperty&lt;Size?&gt;? minimumSize;</code></li><li>按钮的最小尺寸</li><li>该值必须小于等于 <code>maximumSize</code></li></ul></li></ul><ul><li>fixedSize<ul><li><code>final MaterialStateProperty&lt;Size?&gt;? fixedSize;</code></li><li>按钮的尺寸</li><li>设置了这个尺寸，仍然会收 <code>minimumSize</code> 和 <code>maximumSize</code> 的制约</li><li>如果等于 <code>double.infinity</code>，就会被忽略</li><li>如果想要固定宽度和默认高度的设置使用：<code>Size.fromWidth(320)</code></li><li>如果想要固定高度和默认宽度的设置使用：<code>Size.fromHeight(100)</code></li></ul></li></ul><ul><li>maximumSize<ul><li><code>final MaterialStateProperty&lt;Size?&gt;? maximumSize;</code></li><li>按钮的最大尺寸</li><li><code>Size.infinite</code> 或 <code>null</code> 表示按钮的最大尺寸不受限制</li><li>该值必须大于等于 <code>minimumSize</code></li></ul></li></ul><ul><li>side<ul><li><code>final MaterialStateProperty&lt;BorderSide?&gt;? side;</code></li><li>按钮轮廓的颜色和宽度</li><li>该值和 <code>shape</code> 属性一起来创建和装饰按钮轮廓</li></ul></li></ul><ul><li>shape<ul><li><code>final MaterialStateProperty&lt;OutlinedBorder?&gt;? shape;</code></li><li>按钮的形状</li><li>该值和 <code>side</code> 属性一起来创建和装饰按钮轮廓</li></ul></li></ul><ul><li>mouseCursor<ul><li><code>MaterialStateProperty&lt;MouseCursor?&gt;? mouseCursor;</code></li></ul></li></ul><ul><li>visualDensity<ul><li><code>final VisualDensity? visualDensity;</code></li></ul></li></ul><ul><li>tapTargetSize<ul><li><code>final MaterialTapTargetSize? tapTargetSize;</code></li><li>配置可按下按钮的区域的最小尺寸。</li><li>总是默认为 <code>ThemeData.materialTapTargetSize</code>。</li></ul></li></ul><ul><li>animationDuration<ul><li><code>final Duration? animationDuration;</code></li><li>定义 <code>shape</code> 和 <code>elevation</code> 的动画变化的持续时间。</li><li>通常，组件的默认值是 <code>kThemeChangeDuration</code>。</li></ul></li></ul><ul><li>enableFeedback<ul><li><code>final bool? enableFeedback;</code></li><li>检测到的手势是否应该提供声音和触觉反馈。</li><li>通常，组件的默认值是 <code>true</code>。</li></ul></li></ul><ul><li>alignment<ul><li><code>final AlignmentGeometry? alignment;</code></li><li>按钮内容的对齐方式</li><li>通常情况下，按钮的大小会调整为容纳它的内容和它的 padding。如果按钮的大小被限制在一个固定的尺寸内，例如用一个 <code>SizedBox</code> 来包围它，这个属性就定义了它的内容在可用空间内的对齐方式。</li><li>总是默认为 <code>Alignment.center</code>。</li></ul></li></ul><ul><li>splashFactory<ul><li><code>final InteractiveInkFeatureFactory? splashFactory;</code></li><li>创建 <code>InkWell</code> splash factory，它定义了响应轻击而发生的 "墨水 "飞溅的外观效果。</li><li><code>splashFactory: NoSplash.splashFactory</code> 会去除"墨水 "飞溅的效果。</li></ul></li></ul><h2>TextButton.styleFrom</h2><p>一般我们修改文本按钮的样式时不会直接创建一个 <code>ButtonStyle</code>，而是使用 <code>TextButton.styleFrom</code> 方法。这么做的好处是我们直接在原有的样式基础上修改，只需要修改你想要改动的部分，会简单很多。</p><pre data-language="dart"><code>  <span class="hljs-keyword">static</span> ButtonStyle styleFrom({
+    <span class="hljs-comment">// 指定可点击状态下的文本按钮内容的颜色</span>
+    Color? primary,
+    <span class="hljs-comment">// 指定不可点击状态下的文本按钮的颜色</span>
+    Color? onSurface,
+    <span class="hljs-comment">// 指定文本按钮的背景颜色</span>
+    Color? backgroundColor,
+    <span class="hljs-comment">// 指定文本按钮的阴影颜色</span>
+    Color? shadowColor,
+    <span class="hljs-comment">// 指定文本按钮阴影的高度</span>
+    <span class="hljs-built_in">double</span>? elevation,
+    <span class="hljs-comment">// 指定文本按钮内容文字样式</span>
+    TextStyle? textStyle,
+    <span class="hljs-comment">// 指定文本按钮内容与边框之间的 padding</span>
+    EdgeInsetsGeometry? padding,
+    <span class="hljs-comment">// 指定文本按钮最小的尺寸</span>
+    Size? minimumSize,
+    <span class="hljs-comment">// 指定文本按钮的固定尺寸</span>
+    Size? fixedSize,
+    <span class="hljs-comment">// 指定文本按钮的最大尺寸</span>
+    Size? maximumSize,
+    <span class="hljs-comment">// 指定文本按钮轮廓的颜色和宽度</span>
+    BorderSide? side,
+    <span class="hljs-comment">// 指定文本按钮的形状</span>
+    OutlinedBorder? shape,
+    MouseCursor? enabledMouseCursor,
+    MouseCursor? disabledMouseCursor,
+    VisualDensity? visualDensity,
+    <span class="hljs-comment">// 指定配置可按下按钮的区域的最小尺寸。</span>
+    MaterialTapTargetSize? tapTargetSize,
+    <span class="hljs-comment">// 指定 `shape` 和 `elevation` 的动画变化的持续时间。</span>
+    <span class="hljs-built_in">Duration</span>? animationDuration,
+    <span class="hljs-comment">// 指定是否应该提供声音和触觉反馈。</span>
+    <span class="hljs-built_in">bool</span>? enableFeedback,
+    <span class="hljs-comment">// 指定按钮内容的对齐方式</span>
+    AlignmentGeometry? alignment,
+    InteractiveInkFeatureFactory? splashFactory,
+  })
+</code></pre><h2>参考链接</h2><ul><li><a href="https://docs.flutter.dev/development/ui/widgets/material#Buttons">Buttons</a></li><li><a href="https://api.flutter.dev/flutter/material/TextButton-class.html">TextButton</a></li><li><a href="https://docs.flutter.dev/release/breaking-changes/buttons">New Buttons and Button Themes</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-0"><a href="/tags/flutter">Flutter</a></li><li class="variant-0"><a href="/tags/widget">Widget</a></li><li class="variant-0"><a href="/tags/button">Button</a></li></ul><span class="date">发布于 2021年12月23日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
