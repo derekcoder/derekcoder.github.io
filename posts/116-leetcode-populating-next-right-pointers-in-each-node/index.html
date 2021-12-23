@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/116-leetcode-populating-next-right-pointers-in-each-node"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/116-leetcode-populating-next-right-pointers-in-each-node"/><meta name="og:url" content="https://derekcoder.github.io/posts/116-leetcode-populating-next-right-pointers-in-each-node"/><title>116. 填充每个节点的下一个右侧节点指针 | DEREKCODER</title><meta name="twitter:title" content="116. 填充每个节点的下一个右侧节点指针 | DEREKCODER"/><meta name="og:title" content="116. 填充每个节点的下一个右侧节点指针 | DEREKCODER"/><meta name="description" content="给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。..."/><meta name="twitter:description" content="给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。..."/><meta name="og:description" content="给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。..."/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">文章</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>116. 填充每个节点的下一个右侧节点指针</h1><blockquote><p>给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：<br /></p></blockquote><pre data-language="undefined"><code>
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+</code></pre><blockquote><p>填充它的每个 <code>next</code> 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 <code>next</code> 指针设置为 <code>NULL</code>。<br /><br />初始状态下，所有 <code>next</code> 指针都被设置为 <code>NULL</code>。</p></blockquote><h2>解题方法：DFS</h2><pre data-language="swift"><code><span class="hljs-comment">/**
+ * Definition for a Node.
+ * public class Node {
+ *     public var val: Int
+ *     public var left: Node?
+ *     public var right: Node?
+ *	   public var next: Node?
+ *     public init(_ val: Int) {
+ *         self.val = val
+ *         self.left = nil
+ *         self.right = nil
+ *         self.next = nil
+ *     }
+ * }
+ */</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-number">_</span> root: Node?)</span></span> -&gt; <span class="hljs-type">Node?</span> {
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> root = root <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span> }
+        
+        <span class="hljs-keyword">var</span> queue = [<span class="hljs-type">Node</span>]()
+        queue.append(root)
+        
+        <span class="hljs-keyword">while</span> !queue.isEmpty {
+            <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = queue.<span class="hljs-built_in">count</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-built_in">count</span> {
+                <span class="hljs-keyword">let</span> node = queue.removeFirst()
+                <span class="hljs-keyword">if</span> i &lt; <span class="hljs-built_in">count</span> - <span class="hljs-number">1</span> {
+                    node.next = queue.first
+                }
+                
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-keyword">left</span> = node.<span class="hljs-keyword">left</span> {
+                    queue.append(<span class="hljs-keyword">left</span>)
+                }
+                
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-keyword">right</span> = node.<span class="hljs-keyword">right</span> {
+                    queue.append(<span class="hljs-keyword">right</span>)
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> root
+    }
+}
+</code></pre><h3>解题思路</h3><p>题目本身希望我们将二叉树的每一层节点都连接起来形成一个链表。因此直观的做法我们可以对二叉树进行层次遍历，在层次遍历的过程中将我们将二叉树每一层的节点拿出来遍历并连接。</p><p>层次遍历基于广度优先搜索，它与广度优先搜索的不同之处在于，广度优先搜索每次只会取出一个节点来拓展，而层次遍历会每次将队列中的所有元素都拿出来拓展，这样能保证每次从队列中拿出来遍历的元素都是属于同一层的，因此我们可以在遍历的过程中修改每个节点的 <code>next</code> 指针，同时拓展下一层的新队列。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>。每个节点会被访问一次且只会被访问一次，即从队列中弹出，并建立 <code>next</code> 指针。</li><li>空间复杂度：<code>O(N)</code>。这是一棵完美二叉树，它的最后一个层级包含 <code>N/2</code> 个节点。广度优先遍历的复杂度取决于一个层级上的最大元素数量。这种情况下空间复杂度为 <code>O(N)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-5"><a href="/tags/中等">中等</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-0"><a href="/tags/二叉树">二叉树</a></li><li class="variant-0"><a href="/tags/bfs">BFS</a></li></ul><span class="date">发布于 2021年12月23日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>

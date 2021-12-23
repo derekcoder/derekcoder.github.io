@@ -1,4 +1,55 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Thu, 23 Dec 2021 19:00:21 +0800</lastBuildDate><pubDate>Thu, 23 Dec 2021 19:00:21 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/617-leetcode-merge-two-binary-trees</guid><title>617. 合并二叉树</title><description>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。...</description><link>https://derekcoder.github.io/posts/617-leetcode-merge-two-binary-trees</link><pubDate>Thu, 23 Dec 2021 18:53:00 +0800</pubDate><content:encoded><![CDATA[<h1>617. 合并二叉树</h1><blockquote><p>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。<br /><br />你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则<strong>不为</strong> <code>NULL</code> 的节点将直接作为新二叉树的节点。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Thu, 23 Dec 2021 19:35:52 +0800</lastBuildDate><pubDate>Thu, 23 Dec 2021 19:35:52 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/116-leetcode-populating-next-right-pointers-in-each-node</guid><title>116. 填充每个节点的下一个右侧节点指针</title><description>给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。...</description><link>https://derekcoder.github.io/posts/116-leetcode-populating-next-right-pointers-in-each-node</link><pubDate>Thu, 23 Dec 2021 19:34:00 +0800</pubDate><content:encoded><![CDATA[<h1>116. 填充每个节点的下一个右侧节点指针</h1><blockquote><p>给定一个 完美二叉树 ，其所有叶子节点都在同一层，每个父节点都有两个子节点。二叉树定义如下：<br /></p></blockquote><pre data-language="undefined"><code>
+struct Node {
+  int val;
+  Node *left;
+  Node *right;
+  Node *next;
+}
+</code></pre><blockquote><p>填充它的每个 <code>next</code> 指针，让这个指针指向其下一个右侧节点。如果找不到下一个右侧节点，则将 <code>next</code> 指针设置为 <code>NULL</code>。<br /><br />初始状态下，所有 <code>next</code> 指针都被设置为 <code>NULL</code>。</p></blockquote><h2>解题方法：DFS</h2><pre data-language="swift"><code><span class="hljs-comment">/**
+ * Definition for a Node.
+ * public class Node {
+ *     public var val: Int
+ *     public var left: Node?
+ *     public var right: Node?
+ *	   public var next: Node?
+ *     public init(_ val: Int) {
+ *         self.val = val
+ *         self.left = nil
+ *         self.right = nil
+ *         self.next = nil
+ *     }
+ * }
+ */</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">connect</span><span class="hljs-params">(<span class="hljs-number">_</span> root: Node?)</span></span> -&gt; <span class="hljs-type">Node?</span> {
+        <span class="hljs-keyword">guard</span> <span class="hljs-keyword">let</span> root = root <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> <span class="hljs-literal">nil</span> }
+        
+        <span class="hljs-keyword">var</span> queue = [<span class="hljs-type">Node</span>]()
+        queue.append(root)
+        
+        <span class="hljs-keyword">while</span> !queue.isEmpty {
+            <span class="hljs-keyword">let</span> <span class="hljs-built_in">count</span> = queue.<span class="hljs-built_in">count</span>
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-built_in">count</span> {
+                <span class="hljs-keyword">let</span> node = queue.removeFirst()
+                <span class="hljs-keyword">if</span> i &lt; <span class="hljs-built_in">count</span> - <span class="hljs-number">1</span> {
+                    node.next = queue.first
+                }
+                
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-keyword">left</span> = node.<span class="hljs-keyword">left</span> {
+                    queue.append(<span class="hljs-keyword">left</span>)
+                }
+                
+                <span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> <span class="hljs-keyword">right</span> = node.<span class="hljs-keyword">right</span> {
+                    queue.append(<span class="hljs-keyword">right</span>)
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">return</span> root
+    }
+}
+</code></pre><h3>解题思路</h3><p>题目本身希望我们将二叉树的每一层节点都连接起来形成一个链表。因此直观的做法我们可以对二叉树进行层次遍历，在层次遍历的过程中将我们将二叉树每一层的节点拿出来遍历并连接。</p><p>层次遍历基于广度优先搜索，它与广度优先搜索的不同之处在于，广度优先搜索每次只会取出一个节点来拓展，而层次遍历会每次将队列中的所有元素都拿出来拓展，这样能保证每次从队列中拿出来遍历的元素都是属于同一层的，因此我们可以在遍历的过程中修改每个节点的 <code>next</code> 指针，同时拓展下一层的新队列。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(N)</code>。每个节点会被访问一次且只会被访问一次，即从队列中弹出，并建立 <code>next</code> 指针。</li><li>空间复杂度：<code>O(N)</code>。这是一棵完美二叉树，它的最后一个层级包含 <code>N/2</code> 个节点。广度优先遍历的复杂度取决于一个层级上的最大元素数量。这种情况下空间复杂度为 <code>O(N)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/617-leetcode-merge-two-binary-trees</guid><title>617. 合并二叉树</title><description>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。...</description><link>https://derekcoder.github.io/posts/617-leetcode-merge-two-binary-trees</link><pubDate>Thu, 23 Dec 2021 18:53:00 +0800</pubDate><content:encoded><![CDATA[<h1>617. 合并二叉树</h1><blockquote><p>给定两个二叉树，想象当你将它们中的一个覆盖到另一个上时，两个二叉树的一些节点便会重叠。<br /><br />你需要将他们合并为一个新的二叉树。合并的规则是如果两个节点重叠，那么将他们的值相加作为节点合并后的新值，否则<strong>不为</strong> <code>NULL</code> 的节点将直接作为新二叉树的节点。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入: 
 	Tree 1                     Tree 2                  
           1                         2                             
@@ -41,7 +92,7 @@
         <span class="hljs-keyword">return</span> root
     }
 }
-</code></pre><h3>解题思路</h3><p>可以使用深度优先搜索合并两个二叉树。从根节点开始同时遍历两个二叉树，并将对应的节点进行合并。</p><p>两个二叉树的对应节点可能存在以下三种情况，对于每种情况使用不同的合并方式。 - 如果两个二叉树的对应节点都为空，则合并后的二叉树的对应节点也为空； - 如果两个二叉树的对应节点只有一个为空，则合并后的二叉树的对应节点为其中的非空节点； - 如果两个二叉树的对应节点都不为空，则合并后的二叉树的对应节点的值为两个二叉树的对应节点的值之和，此时需要显性合并两个节点。</p><p>对一个节点进行合并之后，还要对该节点的左右子树分别进行合并。这是一个递归的过程。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(min(m,n))</code>，其中 <code>m</code> 和 <code>n</code> 分别是两个二叉树的节点个数。对两个二叉树同时进行深度优先搜索，只有当两个二叉树中的对应节点都不为空时才会对该节点进行显性合并操作，因此被访问到的节点数不会超过较小的二叉树的节点数。</li><li>空间复杂度：<code>O(min(m,n))</code>，其中 <code>m</code> 和 <code>n</code> 分别是两个二叉树的节点个数。空间复杂度取决于递归调用的层数，递归调用的层数不会超过较小的二叉树的最大高度，最坏情况下，二叉树的高度等于节点数。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/max-area-of-island/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/695-leetcode-max-area-of-island</guid><title>695. 岛屿的最大面积</title><description>给你一个大小为 m x n 的二进制矩阵 grid。...</description><link>https://derekcoder.github.io/posts/695-leetcode-max-area-of-island</link><pubDate>Thu, 23 Dec 2021 18:40:00 +0800</pubDate><content:encoded><![CDATA[<h1>695. 岛屿的最大面积</h1><blockquote><p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>grid</code> 。<br /><br /><strong>岛屿</strong> 是由一些相邻的 <code>1</code> (代表土地) 构成的组合，这里的「相邻」要求两个 <code>1</code> 必须在 <strong>水平或者竖直的四个方向上</strong> 相邻。你可以假设 <code>grid</code> 的四个边缘都被 <code>0</code>（代表水）包围着。<br /><br />岛屿的面积是岛上值为 <code>1</code> 的单元格的数目。<br /><br />计算并返回 <code>grid</code> 中最大的岛屿面积。如果没有岛屿，则返回面积为 <code>0</code> 。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+</code></pre><h3>解题思路</h3><p>可以使用深度优先搜索合并两个二叉树。从根节点开始同时遍历两个二叉树，并将对应的节点进行合并。</p><p>两个二叉树的对应节点可能存在以下三种情况，对于每种情况使用不同的合并方式。 - 如果两个二叉树的对应节点都为空，则合并后的二叉树的对应节点也为空； - 如果两个二叉树的对应节点只有一个为空，则合并后的二叉树的对应节点为其中的非空节点； - 如果两个二叉树的对应节点都不为空，则合并后的二叉树的对应节点的值为两个二叉树的对应节点的值之和，此时需要显性合并两个节点。</p><p>对一个节点进行合并之后，还要对该节点的左右子树分别进行合并。这是一个递归的过程。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(min(m,n))</code>，其中 <code>m</code> 和 <code>n</code> 分别是两个二叉树的节点个数。对两个二叉树同时进行深度优先搜索，只有当两个二叉树中的对应节点都不为空时才会对该节点进行显性合并操作，因此被访问到的节点数不会超过较小的二叉树的节点数。</li><li>空间复杂度：<code>O(min(m,n))</code>，其中 <code>m</code> 和 <code>n</code> 分别是两个二叉树的节点个数。空间复杂度取决于递归调用的层数，递归调用的层数不会超过较小的二叉树的最大高度，最坏情况下，二叉树的高度等于节点数。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/merge-two-binary-trees/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/695-leetcode-max-area-of-island</guid><title>695. 岛屿的最大面积</title><description>给你一个大小为 m x n 的二进制矩阵 grid。...</description><link>https://derekcoder.github.io/posts/695-leetcode-max-area-of-island</link><pubDate>Thu, 23 Dec 2021 18:40:00 +0800</pubDate><content:encoded><![CDATA[<h1>695. 岛屿的最大面积</h1><blockquote><p>给你一个大小为 <code>m x n</code> 的二进制矩阵 <code>grid</code> 。<br /><br /><strong>岛屿</strong> 是由一些相邻的 <code>1</code> (代表土地) 构成的组合，这里的「相邻」要求两个 <code>1</code> 必须在 <strong>水平或者竖直的四个方向上</strong> 相邻。你可以假设 <code>grid</code> 的四个边缘都被 <code>0</code>（代表水）包围着。<br /><br />岛屿的面积是岛上值为 <code>1</code> 的单元格的数目。<br /><br />计算并返回 <code>grid</code> 中最大的岛屿面积。如果没有岛屿，则返回面积为 <code>0</code> 。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：grid = [[0,0,1,0,0,0,0,1,0,0,0,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,1,1,0,1,0,0,0,0,0,0,0,0],[0,1,0,0,1,1,0,0,1,0,1,0,0],[0,1,0,0,1,1,0,0,1,1,1,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,0,0],[0,0,0,0,0,0,0,1,1,0,0,0,0]]
 输出：6
 解释：答案不应该是 11 ，因为岛屿只能包含水平或垂直这四个方向上的 1 。
