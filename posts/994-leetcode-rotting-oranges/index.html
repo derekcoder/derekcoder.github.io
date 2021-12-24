@@ -1,0 +1,61 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/994-leetcode-rotting-oranges"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/994-leetcode-rotting-oranges"/><meta name="og:url" content="https://derekcoder.github.io/posts/994-leetcode-rotting-oranges"/><title>994. 腐烂的橘子 | DEREKCODER</title><meta name="twitter:title" content="994. 腐烂的橘子 | DEREKCODER"/><meta name="og:title" content="994. 腐烂的橘子 | DEREKCODER"/><meta name="description" content="在给定的网格中，每个单元格可以有以下三个值之一：..."/><meta name="twitter:description" content="在给定的网格中，每个单元格可以有以下三个值之一：..."/><meta name="og:description" content="在给定的网格中，每个单元格可以有以下三个值之一：..."/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">文章</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>994. 腐烂的橘子</h1><blockquote><p>在给定的网格中，每个单元格可以有以下三个值之一：</p></blockquote><ul><li>值 <code>0</code> 代表空单元格；</li><li>值 <code>1</code> 代表新鲜橘子；</li><li>值 <code>2</code>代表腐烂的橘子。 每分钟，任何与腐烂的橘子（在 4 个正方向上）相邻的新鲜橘子都会腐烂。</li></ul><blockquote><p>返回直到单元格中没有新鲜橘子为止所必须经过的最小分钟数。如果不可能，返回 <code>-1</code>。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：[[2,1,1],[1,1,0],[0,1,1]]
+输出：4
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：[[2,1,1],[0,1,1],[1,0,1]]
+输出：-1
+解释：左下角的橘子（第 2 行， 第 0 列）永远不会腐烂，因为腐烂只会发生在 4 个正向上。
+</code></pre><h2>解题方法：多源广度优先搜索</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">orangesRotting</span><span class="hljs-params">(<span class="hljs-number">_</span> grid: [[Int]])</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">let</span> dRow = [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, -<span class="hljs-number">1</span>]
+        <span class="hljs-keyword">let</span> dCol = [<span class="hljs-number">1</span>, -<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>]
+        
+        <span class="hljs-keyword">let</span> rowCount = grid.<span class="hljs-built_in">count</span>
+        <span class="hljs-keyword">let</span> colCount = grid[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span>
+        
+        <span class="hljs-keyword">var</span> grid = grid
+        <span class="hljs-keyword">var</span> queue = [<span class="hljs-type">Int</span>]()
+        <span class="hljs-keyword">var</span> <span class="hljs-built_in">distance</span> = [<span class="hljs-type">Int</span>: <span class="hljs-type">Int</span>]()
+        <span class="hljs-keyword">var</span> freshCount = <span class="hljs-number">0</span>
+        
+        <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;grid.<span class="hljs-built_in">count</span> {
+            <span class="hljs-keyword">for</span> col <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;grid[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> {
+                <span class="hljs-keyword">if</span> grid[row][col] == <span class="hljs-number">2</span> {
+                    <span class="hljs-keyword">let</span> code = row * colCount + col
+                    queue.append(code)
+                    <span class="hljs-built_in">distance</span>[code] = <span class="hljs-number">0</span>
+                } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> grid[row][col] == <span class="hljs-number">1</span> {
+                    freshCount += <span class="hljs-number">1</span>
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">var</span> ans = <span class="hljs-number">0</span>        
+        <span class="hljs-keyword">while</span> !queue.isEmpty {
+            <span class="hljs-keyword">let</span> code = queue.removeFirst()
+            <span class="hljs-keyword">let</span> row = code / colCount
+            <span class="hljs-keyword">let</span> col = code % colCount
+            <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">0</span>..&lt;<span class="hljs-number">4</span> {
+                <span class="hljs-keyword">let</span> newRow = row + dRow[i]
+                <span class="hljs-keyword">let</span> newCol = col + dCol[i]
+                
+                <span class="hljs-keyword">if</span> newRow &gt;= <span class="hljs-number">0</span> &amp;&amp; newRow &lt; grid.<span class="hljs-built_in">count</span> &amp;&amp; newCol &gt;= <span class="hljs-number">0</span> &amp;&amp; newCol &lt; grid[<span class="hljs-number">0</span>].<span class="hljs-built_in">count</span> &amp;&amp; grid[newRow][newCol] == <span class="hljs-number">1</span> {
+                    freshCount -= <span class="hljs-number">1</span>
+                    grid[newRow][newCol] = <span class="hljs-number">2</span>
+                    <span class="hljs-keyword">let</span> newCode = newRow * colCount + newCol
+                    queue.append(newCode)
+                    <span class="hljs-built_in">distance</span>[newCode] = <span class="hljs-built_in">distance</span>[code]! + <span class="hljs-number">1</span>
+                    
+                    ans = <span class="hljs-built_in">distance</span>[newCode]!
+                }
+            }
+        }
+        
+        <span class="hljs-keyword">if</span> freshCount &gt; <span class="hljs-number">0</span> {
+            <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+        }
+        
+        <span class="hljs-keyword">return</span> ans
+    }
+}
+</code></pre><h3>解题思路</h3><p>观察到对于所有的腐烂橘子，其实它们在广度优先搜索上是等价于同一层的节点的。</p><p>假设这些腐烂橘子刚开始是新鲜的，而有一个腐烂橘子(我们令其为<strong>超级源点</strong>)会在下一秒把这些橘子都变腐烂，而这个腐烂橘子刚开始在的时间是 <code>−1</code> ，那么按照广度优先搜索的算法，下一分钟也就是第 <code>0</code> 分钟的时候，这个腐烂橘子会把它们都变成腐烂橘子，然后继续向外拓展，所以其实这些腐烂橘子是同一层的节点。那么在广度优先搜索的时候，我们将这些腐烂橘子都放进队列里进行广度优先搜索即可，最后每个新鲜橘子被腐烂的最短时间 <code>distance</code> 其实是以这个超级源点的腐烂橘子为起点的广度优先搜索得到的结果。</p><p>为了确认是否所有新鲜橘子都被腐烂，可以记录一个变量 <code>freshCount</code> 表示当前网格中的新鲜橘子数，广度优先搜索的时候如果有新鲜橘子被腐烂，则 <code>freshCount -= 1</code>，最后搜索结束时如果 <code>freshCount</code> 大于 <code>0</code> ，说明有新鲜橘子没被腐烂，返回 <code>−1</code> ，否则返回所有新鲜橘子被腐烂的时间的最大值即可。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(R x C)</code>，其中 <code>R</code> 为矩阵行数，<code>C</code> 为矩阵列数，即矩阵元素个数。即进行一次广度优先搜索的时间。</li><li>空间复杂度：<code>O(R x C)</code>，其中 <code>R</code> 为矩阵行数，<code>C</code> 为矩阵列数，即矩阵元素个数。需要额外的 <code>distance</code> 散列表来记录每个橘子被腐烂的最短时间，大小为 <code>O(R x C)</code>，且广度优先搜索中队列里存放的状态最多不会超过 <code>R x C</code> 个，最多需要 <code>O(R x C)</code> 的空间，所以最后的空间复杂度为 <code>O(R x C)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/rotting-oranges/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-5"><a href="/tags/中等">中等</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/bfs">BFS</a></li></ul><span class="date">发布于 2021年12月24日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
