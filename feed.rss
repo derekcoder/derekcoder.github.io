@@ -1,4 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Sun, 2 Jan 2022 14:19:14 +0800</lastBuildDate><pubDate>Sun, 2 Jan 2022 14:19:14 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/21-leetcode-merge-two-sorted-lists</guid><title>21. 合并两个有序链表</title><description>将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</description><link>https://derekcoder.github.io/posts/21-leetcode-merge-two-sorted-lists</link><pubDate>Sun, 2 Jan 2022 14:13:00 +0800</pubDate><content:encoded><![CDATA[<h1>21. 合并两个有序链表</h1><blockquote><p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Sun, 2 Jan 2022 14:44:22 +0800</lastBuildDate><pubDate>Sun, 2 Jan 2022 14:44:22 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</guid><title>206. 反转链表</title><description>给你单链表的头节点 head，请你反转链表，并返回反转后的链表。</description><link>https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</link><pubDate>Sun, 2 Jan 2022 14:44:00 +0800</pubDate><content:encoded><![CDATA[<h1>206. 反转链表</h1><blockquote><p>给你单链表的头节点 <code>head</code>，请你反转链表，并返回反转后的链表。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+输入：head = [1,2,3,4,5]
+输出：[5,4,3,2,1]
+</code></pre><p>示例二：</p><pre data-language="undefined"><code>
+输入：head = [1,2]
+输出：[2,1]
+</code></pre><p>示例三：</p><pre data-language="undefined"><code>
+输入：head = []
+输出：[]
+</code></pre><h2>解题方法一：迭代</h2><pre data-language="swift"><code><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init() { self.val = 0; self.next = nil; }
+ *     public init(_ val: Int) { self.val = val; self.next = nil; }
+ *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+ * }
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reverseList</span><span class="hljs-params">(<span class="hljs-number">_</span> head: ListNode?)</span></span> -&gt; <span class="hljs-type">ListNode?</span> {
+        <span class="hljs-keyword">var</span> prev: <span class="hljs-type">ListNode?</span> = <span class="hljs-literal">nil</span>
+        <span class="hljs-keyword">var</span> curr = head
+        
+        <span class="hljs-keyword">while</span> curr != <span class="hljs-literal">nil</span> {
+            <span class="hljs-keyword">let</span> next = curr!.next
+            curr!.next = prev
+            prev = curr
+            curr = next
+        }
+        
+        <span class="hljs-keyword">return</span> prev
+    }    
+}
+</code></pre><h3>解题思路</h3><p>假设链表为 1→2→3→∅，我们想要把它改成 ∅←1←2←3。</p><p>在遍历链表时，将当前节点的 <code>next</code> 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点 <code>prev</code>。在更改引用之前，还需要存储后一个节点。最后返回新的头引用。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 是链表的长度。需要遍历链表一次。</li><li>空间复杂度：<code>O(1)</code>。</li></ul><h2>解题方法二：递归</h2><pre data-language="swift"><code><span class="hljs-comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     public var val: Int
+ *     public var next: ListNode?
+ *     public init() { self.val = 0; self.next = nil; }
+ *     public init(_ val: Int) { self.val = val; self.next = nil; }
+ *     public init(_ val: Int, _ next: ListNode?) { self.val = val; self.next = next; }
+ * }
+ */</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">reverseList</span><span class="hljs-params">(<span class="hljs-number">_</span> head: ListNode?)</span></span> -&gt; <span class="hljs-type">ListNode?</span> {
+        <span class="hljs-keyword">if</span> head == <span class="hljs-literal">nil</span> || head!.next == <span class="hljs-literal">nil</span> {
+            <span class="hljs-keyword">return</span> head
+        }
+        
+        <span class="hljs-keyword">let</span> newHead = reverseList(head!.next)
+        head!.next!.next = head
+        head!.next = <span class="hljs-literal">nil</span>
+        <span class="hljs-keyword">return</span> newHead
+    }    
+}
+</code></pre><h3>解题思路</h3><p>递归版本稍微复杂一些，其关键在于反向工作。假设链表的其余部分已经被反转，现在应该如何反转它前面的部分？</p><p>假设链表为：</p><p>n(1)→..→n(k-1)→n(k)→n(k+1)→...→n(m)→∅</p><p>若从节点 <code>n(k+1)</code> 到 <code>n(m)</code> 已经被反转，而我们正处于 <code>n(k)</code>。</p><p>n(1)→..→n(k-1)→n(k)→n(k+1)←...←n(m)</p><p>我们希望 <code>n(k+1)</code> 的下一个节点指向 <code>n(k)</code>。</p><p>所以，<code>n(k).next.next = n(k)</code>。</p><p>需要注意的是 <code>n(1)</code> 的下一个节点必须指向 <code>∅</code>。如果忽略了这一点，链表中可能会产生环。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 是链表的长度。需要对链表的每个节点进行反转操作。</li><li>空间复杂度：<code>O(n)</code>，其中 <code>n</code> 是链表的长度。空间复杂度主要取决于递归调用的栈空间，最多为 <code>n</code> 层。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/reverse-linked-list/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/21-leetcode-merge-two-sorted-lists</guid><title>21. 合并两个有序链表</title><description>将两个升序链表合并为一个新的 升序 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</description><link>https://derekcoder.github.io/posts/21-leetcode-merge-two-sorted-lists</link><pubDate>Sun, 2 Jan 2022 14:13:00 +0800</pubDate><content:encoded><![CDATA[<h1>21. 合并两个有序链表</h1><blockquote><p>将两个升序链表合并为一个新的 <strong>升序</strong> 链表并返回。新链表是通过拼接给定的两个链表的所有节点组成的。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：l1 = [1,2,4], l2 = [1,3,4]
 输出：[1,1,2,3,4,4]
 </code></pre><p>示例二：</p><pre data-language="undefined"><code>
