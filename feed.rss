@@ -1,4 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Sun, 2 Jan 2022 14:47:48 +0800</lastBuildDate><pubDate>Sun, 2 Jan 2022 14:47:48 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</guid><title>206. 反转链表</title><description>给你单链表的头节点 head，请你反转链表，并返回反转后的链表。</description><link>https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</link><pubDate>Sun, 2 Jan 2022 14:44:00 +0800</pubDate><content:encoded><![CDATA[<h1>206. 反转链表</h1><blockquote><p>给你单链表的头节点 <code>head</code>，请你反转链表，并返回反转后的链表。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Tue, 4 Jan 2022 15:34:03 +0800</lastBuildDate><pubDate>Tue, 4 Jan 2022 15:34:03 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/flutter-state-management</guid><title>Flutter 的状态管理</title><description>Flutter 的状态管理</description><link>https://derekcoder.github.io/posts/flutter-state-management</link><pubDate>Tue, 4 Jan 2022 18:12:00 +0800</pubDate><content:encoded><![CDATA[<h1>Flutter 的状态管理</h1><p>如果你是从一个<strong>命令式</strong>的框架（如 <code>Android SDK</code> 或 <code>iOS UIKit</code>）来到 <code>Flutter</code>，你需要从一个新的角度思考应用开发的问题。</p><p>例如，在 <code>Flutter</code> 中，当你修改用户界面的某一个部分时，你不是直接修改它，而是重新构建这部分的用户界面。</p><p><code>Flutter</code> 是一个<strong>声明式</strong>的框架。这意味着 <code>Flutter</code> 是通过构建其用户界面来反映当前应用程序的状态。</p><p>公式如下：</p><pre data-language="undefined"><code>
+UI = f(state)
+
+// UI: 表示用户界面
+// f: 你的 build 方法
+// state: 应用程序的当前状态
+</code></pre><h2>短暂状态（ephemeral state）和应用状态（app state）</h2><blockquote><p>状态（state）是指你用来构建用户界面的数据。它包含两种：<code>短暂状态</code>（ephemeral state）和<code>应用状态</code>（app state）。</p></blockquote><h3>短暂状态（ephemeral state）</h3><p><code>短暂状态</code>（有时称为 <code>UI状态</code> 或 <code>本地状态</code>）一般是指单个小组件（Widget）内部的状态。</p><p>比如：</p><ul><li>一个 <code>PageView</code> 中的当前页面 <code>_currentPage</code></li><li>一个复杂动画的当前进度 <code>_progress</code></li><li>底部导航条（<code>BottomNavigationBar</code>）中的当前选中标签栏 <code>_selectedTab</code></li></ul><p>非当前组件的其它组件很少需要访问这个状态。同时没有必要对它进行序列化存储。</p><p>换句话说，没有必要在这种状态上使用状态管理技术（<code>ScopedModel</code>, <code>Redux</code> 等等）。你所需要的只是一个 <code>StatefulWidget</code>。</p><h3>应用状态（app state）</h3><p>如果你的应用程序中的某个状态想要被许多组件共享，那么这个就是<code>应用状态</code>（app state）。</p><p>比如：</p><ul><li>用户偏好设置</li><li>登录信息</li><li>社交网络应用中的通知</li><li>电子商务应用中的购物车</li><li>新闻应用中文章的阅读/未读状态</li></ul><h2>应用状态管理</h2><p>我们这里说的，Flutter 状态管理是指对<code>应用状态</code>的管理。（因为对于<code>短暂状态</code>来说，直接使用 <code>StatefulWidget</code> 就可以了。）</p><p>应用状态管理方法有很多。如何选择合理的应用状态管理方案，需要考虑你的应用程序的大小和复杂性，以及你的团队经验。</p><p>Flutter 官方推荐的方式是：Provider + ChangeNotifier，这也是最简单的方式，大部分情况下就能满足你的需求。</p><h3>Provider</h3><p>Provider 中你需要理解三个概念：</p><ul><li>ChangeNotifier</li><li>ChangeNotifierProvider</li><li>Consumer</li></ul><h4>ChangeNotifier</h4><p><code>ChangeNotifier</code> 是 <code>Flutter SDK</code> 中的一个简单的类，它为其监听器提供变化通知。换句话说，如果某个东西是一个 <code>ChangeNotifier</code>，你就可以订阅它的变化。</p><p>在 <code>provider</code> 中，我们使用 <code>ChangeNotifier</code> 来封装你的<code>应用状态</code>。</p><pre data-language="dart"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">CartModel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">ChangeNotifier</span> </span>{
+  <span class="hljs-comment">/// <span class="markdown">Internal, private state of the cart.</span></span>
+  <span class="hljs-keyword">final</span> <span class="hljs-built_in">List</span>&lt;Item&gt; _items = [];
+
+  <span class="hljs-comment">/// <span class="markdown">An unmodifiable view of the items in the cart.</span></span>
+  UnmodifiableListView&lt;Item&gt; <span class="hljs-keyword">get</span> items =&gt; UnmodifiableListView(_items);
+
+  <span class="hljs-comment">/// <span class="markdown">The current total price of all items (assuming all items cost $42).</span></span>
+  <span class="hljs-built_in">int</span> <span class="hljs-keyword">get</span> totalPrice =&gt; _items.length * <span class="hljs-number">42</span>;
+
+  <span class="hljs-comment">/// <span class="markdown">Adds [item] to cart. This and [removeAll] are the only ways to modify the</span></span>
+  <span class="hljs-comment">/// <span class="markdown">cart from the outside.</span></span>
+  <span class="hljs-keyword">void</span> add(Item item) {
+    _items.add(item);
+    <span class="hljs-comment">// This call tells the widgets that are listening to this model to rebuild.</span>
+    notifyListeners();
+  }
+
+  <span class="hljs-comment">/// <span class="markdown">Removes all items from the cart.</span></span>
+  <span class="hljs-keyword">void</span> removeAll() {
+    _items.clear();
+    <span class="hljs-comment">// This call tells the widgets that are listening to this model to rebuild.</span>
+    notifyListeners();
+  }
+}
+</code></pre><h4>ChangeNotifierProvider</h4><p><code>ChangeNotifierProvider</code> 是为其子组件提供 <code>ChangeNotifier</code> 实例的组件。它来自于 <code>provider</code>。</p><pre data-language="dart"><code><span class="hljs-keyword">void</span> main() {
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) =&gt; CartModel(),
+      child: <span class="hljs-keyword">const</span> MyApp(),
+    ),
+  );
+}
+</code></pre><h4>Consumer</h4><p><code>Consumer</code> 是用来订阅 <code>ChangeNotifier</code> 的组件。</p><pre data-language="dart"><code><span class="hljs-keyword">return</span> Consumer&lt;CartModel&gt;(
+  builder: (context, cart, child) {
+    <span class="hljs-keyword">return</span> Text(<span class="hljs-string">"Total price: <span class="hljs-subst">${cart.totalPrice}</span>"</span>);
+  },
+);
+</code></pre><h4>Provider.of</h4><p>如果你不想订阅 <code>ChangeNotifier</code>，只想访问它。这时候你就可以使用 <code>Provider.of</code>。</p><pre data-language="dart"><code>Provider.of&lt;CartModel&gt;(context, listen: <span class="hljs-keyword">false</span>).removeAll();
+</code></pre><h2>参考链接</h2><ul><li><a href="https://docs.flutter.dev/development/data-and-backend/state-mgmt/intro">State Management</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</guid><title>206. 反转链表</title><description>给你单链表的头节点 head，请你反转链表，并返回反转后的链表。</description><link>https://derekcoder.github.io/posts/206-leetcode-reverse-linked-list</link><pubDate>Sun, 2 Jan 2022 14:44:00 +0800</pubDate><content:encoded><![CDATA[<h1>206. 反转链表</h1><blockquote><p>给你单链表的头节点 <code>head</code>，请你反转链表，并返回反转后的链表。</p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
 输入：head = [1,2,3,4,5]
 输出：[5,4,3,2,1]
 </code></pre><p>示例二：</p><pre data-language="undefined"><code>
