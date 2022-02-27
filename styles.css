@@ -82,6 +82,10 @@ h2 {
     margin: 20px 0;
 }
 
+h3 {
+    margin: 16px 0;
+}
+
 p {
     margin-bottom: 10px;
 }
@@ -243,13 +247,13 @@ footer {
 article p code,
 article li code,
 .discover .content code {
-  background-color: #f2f2f2;
+  background-color: #eee;
   display: inline-block;
-  padding: 0 5px 0px 5px;
-  border-radius: 3px;
-  font-size: 0.9em;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 1.0em;
   margin: 1px;
-  line-break: auto;
+  line-break: anywhere;
 }
 
 .content pre {
@@ -367,6 +371,10 @@ article li code,
 
   .blog-category {
     padding: 1em 12px;
+  }
+
+  article p {
+    line-height: 1.5;
   }
 
   article .tags { 
