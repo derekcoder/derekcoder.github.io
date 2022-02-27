@@ -251,9 +251,11 @@ article li code,
   display: inline-block;
   padding: 1px 5px;
   border-radius: 4px;
-  font-size: 1.0em;
+  font-size: 0.9em;
   margin: 1px;
   line-break: anywhere;
+  line-height: 19px;
+  font-family: Menlo;
 }
 
 .content pre {
