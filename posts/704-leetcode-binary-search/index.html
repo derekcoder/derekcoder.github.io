@@ -6,9 +6,9 @@
         <span class="hljs-keyword">while</span> (<span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span>) {
             <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span>
             <span class="hljs-keyword">if</span> nums[mid] &lt; target {
-                low = mid + <span class="hljs-number">1</span>
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
             } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> nums[mid] &gt; target {
-                high = mid - <span class="hljs-number">1</span>
+                <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
             } <span class="hljs-keyword">else</span> {
                 <span class="hljs-keyword">return</span> mid
             }
@@ -17,4 +17,4 @@
         <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
     }
 }
-</code></pre><h3>解题思路:</h3><p>定义查找的范围 [<code>left</code>,<code>right</code>]，初始查找范围是整个数组。每次取查找范围的中点 <code>mid</code>，比较 <code>nums[mid]</code> 和 <code>target</code> 的大小，如果相等则 <code>mid</code> 即为要寻找的下标，如果不相等则根据 <code>nums[mid]</code> 和 <code>target</code> 的大小关系将查找范围缩小一半。</p><p>由于每次查找都会将查找范围缩小一半，因此二分查找的时间复杂度是 <code>O(logn)</code>，其中 <code>n</code> 是数组的长度。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中 <code>n</code> 是数组的长度。</li><li>空间复杂度：<code>O(1)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/binary-search/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/二分查找">二分查找</a></li></ul><span class="date">发布于 2021年12月11日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
+</code></pre><h3>解题思路:</h3><p>定义查找的范围 [<code>left</code>, <code>right</code>]，初始查找范围是整个数组。每次取查找范围的中点<code>mid</code>，比较<code>nums[mid]</code> 和<code>target</code>的大小，如果相等则<code>mid</code> 即为要寻找的下标，如果不相等则根据<code>nums[mid]</code> 和 <code>target</code>的大小关系将查找范围缩小一半。</p><p>由于每次查找都会将查找范围缩小一半，因此二分查找的时间复杂度是<code>O(logn)</code>，其中<code>n</code>是数组的长度。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中<code>n</code>是数组的长度。</li><li>空间复杂度：<code>O(1)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/binary-search/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/二分查找">二分查找</a></li></ul><span class="date">发布于 2021年12月11日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
