@@ -3,16 +3,15 @@
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">1</span>
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = n
         
-        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> { <span class="hljs-comment">// 循环直至区间左右端点相同</span>
-            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span> <span class="hljs-comment">// 防止计算时溢出</span>
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> { 
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
             <span class="hljs-keyword">if</span> isBadVersion(mid) {
-                <span class="hljs-keyword">right</span> = mid <span class="hljs-comment">// 答案在区间 [left, mid] 中</span>
+                <span class="hljs-keyword">right</span> = mid 
             } <span class="hljs-keyword">else</span> {
-                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span> <span class="hljs-comment">// 答案在区间 [mid+1, right] 中</span>
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
             }
         }
         
-        <span class="hljs-comment">// 此时有 left == right，区间缩为一个点，即为答案</span>
         <span class="hljs-keyword">return</span> <span class="hljs-keyword">left</span>
     }
 }
