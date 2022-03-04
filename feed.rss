@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Sun, 27 Feb 2022 20:29:49 +0800</lastBuildDate><pubDate>Sun, 27 Feb 2022 20:29:49 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/how-check-prime</guid><title>怎么判断一个整数是否是素数？</title><description></description><link>https://derekcoder.github.io/posts/how-check-prime</link><pubDate>Fri, 11 Feb 2022 18:20:00 +0800</pubDate><content:encoded><![CDATA[<h1>怎么判断一个整数是否是素数？</h1><h2>什么是素数？</h2><ul><li>一个大于 1 的自然数，除了 1 和它自身外，不能被其他自然数整除的数叫做素数；否则称为合数</li><li>0 和 1 既不是质数也不是合数，最小的质数是 2</li></ul><p>判断一个整数是否是素数，我们会三种常见方法。</p><h2>最简单的方法</h2><pre data-language="swift"><code><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">checkPrime</span><span class="hljs-params">(<span class="hljs-number">_</span> num: Int)</span></span> -&gt; <span class="hljs-type">Bool</span> {
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>DEREKCODER</title><description>坚持输出比质量更重要</description><link>https://derekcoder.github.io</link><language>zh</language><lastBuildDate>Fri, 4 Mar 2022 21:21:49 +0800</lastBuildDate><pubDate>Fri, 4 Mar 2022 21:21:49 +0800</pubDate><ttl>250</ttl><atom:link href="https://derekcoder.github.io/feed.rss" rel="self" type="application/rss+xml"/><item><guid isPermaLink="true">https://derekcoder.github.io/posts/how-check-prime</guid><title>怎么判断一个整数是否是素数？</title><description></description><link>https://derekcoder.github.io/posts/how-check-prime</link><pubDate>Fri, 11 Feb 2022 18:20:00 +0800</pubDate><content:encoded><![CDATA[<h1>怎么判断一个整数是否是素数？</h1><h2>什么是素数？</h2><ul><li>一个大于 1 的自然数，除了 1 和它自身外，不能被其他自然数整除的数叫做素数；否则称为合数</li><li>0 和 1 既不是质数也不是合数，最小的质数是 2</li></ul><p>判断一个整数是否是素数，我们会三种常见方法。</p><h2>最简单的方法</h2><pre data-language="swift"><code><span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">checkPrime</span><span class="hljs-params">(<span class="hljs-number">_</span> num: Int)</span></span> -&gt; <span class="hljs-type">Bool</span> {
     <span class="hljs-keyword">guard</span> num &gt; <span class="hljs-number">3</span> <span class="hljs-keyword">else</span> { <span class="hljs-keyword">return</span> num &gt; <span class="hljs-number">1</span> }
     
     <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-number">2</span>...(num-<span class="hljs-number">1</span>) {
@@ -1213,28 +1213,13 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
         <span class="hljs-keyword">return</span> result
     }
 }
-</code></pre><h3>解题思路</h3><p>同样地，我们可以使用两个指针分别指向位置 <code>0</code> 和 <code>n−1</code>，每次比较两个指针对应的数，选择绝对值较大的那个放入答案并移动指针。这种方法无需处理某一指针移动至边界的情况。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 是数组 <code>nums</code> 的长度。</li><li>空间复杂度：<code>O(1)</code>。除了存储答案的数组以外，我们只需要维护常量空间。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/squares-of-a-sorted-array/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/35-leetcode-search-insert-position</guid><title>35. 搜索插入位置</title><description>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</description><link>https://derekcoder.github.io/posts/35-leetcode-search-insert-position</link><pubDate>Sun, 12 Dec 2021 13:23:00 +0800</pubDate><content:encoded><![CDATA[<h1>35. 搜索插入位置</h1><blockquote><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。<br /><br />请必须使用时间复杂度为 O(log n) 的算法。<br /></p></blockquote><p>示例一：</p><pre data-language="undefined"><code>
-输入: nums = [1,3,5,6], target = 5
-输出: 2
-</code></pre><p>示例二：</p><pre data-language="undefined"><code>
-输入: nums = [1,3,5,6], target = 2
-输出: 1
-</code></pre><p>示例三：</p><pre data-language="undefined"><code>
-输入: nums = [1,3,5,6], target = 7
-输出: 4
-</code></pre><p>示例四：</p><pre data-language="undefined"><code>
-输入: nums = [1,3,5,6], target = 0
-输出: 0
-</code></pre><p>示例五：</p><pre data-language="undefined"><code>
-输入: nums = [1], target = 0
-输出: 0
-</code></pre><h2>解题方法：</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+</code></pre><h3>解题思路</h3><p>同样地，我们可以使用两个指针分别指向位置 <code>0</code> 和 <code>n−1</code>，每次比较两个指针对应的数，选择绝对值较大的那个放入答案并移动指针。这种方法无需处理某一指针移动至边界的情况。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(n)</code>，其中 <code>n</code> 是数组 <code>nums</code> 的长度。</li><li>空间复杂度：<code>O(1)</code>。除了存储答案的数组以外，我们只需要维护常量空间。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/squares-of-a-sorted-array/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/35-leetcode-search-insert-position</guid><title>35. 搜索插入位置</title><description>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。</description><link>https://derekcoder.github.io/posts/35-leetcode-search-insert-position</link><pubDate>Sun, 12 Dec 2021 13:23:00 +0800</pubDate><content:encoded><![CDATA[<h1>35. 搜索插入位置</h1><blockquote><p>给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。<br /><br />请必须使用时间复杂度为 O(log n) 的算法。<br /></p></blockquote><p>示例1：</p><blockquote><p>输入: nums = [1,3,5,6], target = 5 <br/>输出: 2</p></blockquote><p>示例2：</p><blockquote><p>输入: nums = [1,3,5,6], target = 2<br/>输出: 1</p></blockquote><p>示例3：</p><blockquote><p>输入: nums = [1,3,5,6], target = 7<br/>输出: 4</p></blockquote><p>示例4：</p><blockquote><p>输入: nums = [1,3,5,6], target = 0<br/>输出: 0</p></blockquote><p>示例5：</p><blockquote><p>输入: nums = [1], target = 0<br/>输出: 0</p></blockquote><h2>解题方法：</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
     <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
         
         <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
-            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span>
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
             <span class="hljs-keyword">if</span> nums[mid] &lt; target {
                 <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
             } <span class="hljs-keyword">else</span> {
@@ -1253,18 +1238,21 @@ ans.val = 3, ans.next.val = 4, ans.next.next.val = 5, 以及 ans.next.next.next 
     <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">firstBadVersion</span><span class="hljs-params">(<span class="hljs-number">_</span> n: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">1</span>
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = n
-        
-        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt; <span class="hljs-keyword">right</span> { <span class="hljs-comment">// 循环直至区间左右端点相同</span>
-            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) &gt;&gt; <span class="hljs-number">1</span> <span class="hljs-comment">// 防止计算时溢出</span>
-            <span class="hljs-keyword">if</span> isBadVersion(mid) {
-                <span class="hljs-keyword">right</span> = mid <span class="hljs-comment">// 答案在区间 [left, mid] 中</span>
+
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> !isBadVersion(mid) {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
             } <span class="hljs-keyword">else</span> {
-                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span> <span class="hljs-comment">// 答案在区间 [mid+1, right] 中</span>
+                <span class="hljs-keyword">if</span> mid == <span class="hljs-number">0</span> || !isBadVersion(mid - <span class="hljs-number">1</span>) {
+                    <span class="hljs-keyword">return</span> mid
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
+                }
             }
         }
-        
-        <span class="hljs-comment">// 此时有 left == right，区间缩为一个点，即为答案</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">left</span>
+
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
     }
 }
 </code></pre><h3>解题思路:</h3><p>当一个版本为正确版本，则该版本之前的所有版本均为正确版本；当一个版本为错误版本，则该版本之后的所有版本均为错误版本。我们可以利用这个性质进行二分查找。</p><p>具体地，将左右边界分别初始化为<code>1</code>和<code>n</code>，其中<code>n</code>是给定的版本数量。设定左右边界之后，每次我们都依据左右边界找到其中间的版本，检查其是否为正确版本。如果该版本为正确版本，那么第一个错误的版本必然位于该版本的右侧，我们缩紧左边界；否则第一个错误的版本必然位于该版本及该版本的左侧，我们缩紧右边界。</p><p>这样我们每判断一次都可以缩紧一次边界，而每次缩紧时两边界距离将变为原来的一半，因此我们至多只需要缩紧<code>O(logn)</code>次。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中<code>n</code>是给定版本的数量。</li><li>空间复杂度：<code>O(1)</code>。我们只需要常数的空间保存若干变量。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/first-bad-version/">力扣原题</a></li></ul>]]></content:encoded></item><item><guid isPermaLink="true">https://derekcoder.github.io/posts/704-leetcode-binary-search</guid><title>704. 二分查找</title><description>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target  ，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</description><link>https://derekcoder.github.io/posts/704-leetcode-binary-search</link><pubDate>Sat, 11 Dec 2021 18:50:00 +0800</pubDate><content:encoded><![CDATA[<h1>704. 二分查找</h1><blockquote><p>给定一个 n 个元素有序的（升序）整型数组 nums 和一个目标值 target，写一个函数搜索 nums 中的 target，如果目标值存在返回下标，否则返回 -1。</p></blockquote><p>示例1：</p><blockquote><p>输入: nums = [-1,0,3,5,9,12], target = 9 <br/>输出: 4<br/>解释: 9 出现在 nums 中并且下标为 4</p></blockquote><p>示例2：</p><blockquote><p>输入: nums = [-1,0,3,5,9,12], target = 2 <br/>输出: -1<br/>解释: 2 不存在 nums 中因此返回 -1<br/></p></blockquote><h2>解题方法：二分查找</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
