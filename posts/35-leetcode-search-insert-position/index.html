@@ -2,21 +2,21 @@
     <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
         <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
-        
+
         <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
             <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
-            <span class="hljs-keyword">if</span> nums[mid] &lt; target {
-                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
-            } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">if</span> nums[mid] &gt;= target {
                 <span class="hljs-keyword">if</span> mid == <span class="hljs-number">0</span> || nums[mid - <span class="hljs-number">1</span>] &lt; target {
                     <span class="hljs-keyword">return</span> mid
                 } <span class="hljs-keyword">else</span> {
                     <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
                 }
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
             }
         }
-        
-        <span class="hljs-keyword">return</span> nums.<span class="hljs-built_in">count</span>
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">left</span>
     }
 }
-</code></pre><h3>解题思路:</h3><p>假设题意是叫你在排序数组中寻找是否存在一个目标值，那么训练有素的读者肯定立马就能想到利用二分法在 <code>O(logn)</code> 的时间内找到是否存在目标值。但这题还多了个额外的条件，即如果不存在数组中的时候需要返回按顺序插入的位置，那我们还能用二分法么？答案是可以的，我们只需要稍作修改即可。</p><p>考虑这个插入的位置 <code>pos</code>，它成立的条件为：</p><p><code>nums[pos−1] &lt; target ≤ nums[pos]</code></p><p>其中 <code>nums</code> 代表排序数组。由于如果存在这个目标值，我们返回的索引也是 <code>pos</code>，因此我们可以将两个条件合并得出最后的目标：「在一个有序数组中找第一个大于等于 <code>target</code> 的下标」。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中 <code>n</code> 为数组的长度。二分查找所需的时间复杂度为 <code>O(logn)</code>。</li><li>空间复杂度：<code>O(1)</code>。我们只需要常数空间存放若干变量。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/search-insert-position/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/二分查找">二分查找</a></li></ul><span class="date">发布于 2021年12月12日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
+</code></pre><h3>解题思路:</h3><p>通过分析题目我们可以看出，本题是要找到第一个满足大于等于 target 的元素，如果则把元素放在最后面。</p><p>这是二分查找的类型之一：<strong>找出第一次出现满足某个条件的元素。</strong></p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中 <code>n</code> 为数组的长度。</li><li>空间复杂度：<code>O(1)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/search-insert-position/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/二分查找">二分查找</a></li></ul><span class="date">发布于 2021年12月12日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
