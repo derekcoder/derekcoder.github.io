@@ -6,7 +6,7 @@
         <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
             <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
             <span class="hljs-keyword">if</span> isBadVersion(mid) {
-                <span class="hljs-keyword">if</span> mid == <span class="hljs-number">0</span> || !isBadVersion(mid - <span class="hljs-number">1</span>) {
+                <span class="hljs-keyword">if</span> mid == <span class="hljs-number">1</span> || !isBadVersion(mid - <span class="hljs-number">1</span>) {
                     <span class="hljs-keyword">return</span> mid
                 } <span class="hljs-keyword">else</span> {
                     <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
