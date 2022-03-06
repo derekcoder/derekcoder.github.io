@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/35-leetcode-find-first-and-last-position-of-elements-in-sorted-array"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/35-leetcode-find-first-and-last-position-of-elements-in-sorted-array"/><meta name="og:url" content="https://derekcoder.github.io/posts/35-leetcode-find-first-and-last-position-of-elements-in-sorted-array"/><title>34. 在排序数组中查找元素的第一个和最后一个位置 | DEREKCODER</title><meta name="twitter:title" content="34. 在排序数组中查找元素的第一个和最后一个位置 | DEREKCODER"/><meta name="og:title" content="34. 在排序数组中查找元素的第一个和最后一个位置 | DEREKCODER"/><meta name="description" content="给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。"/><meta name="twitter:description" content="给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。"/><meta name="og:description" content="给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">文章</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>34. 在排序数组中查找元素的第一个和最后一个位置</h1><blockquote><p>给定一个按照升序排列的整数数组 nums，和一个目标值 target。找出给定目标值在数组中的开始位置和结束位置。<br/><br/>如果数组中不存在目标值 target，返回 [-1, -1]。</p></blockquote><p>示例1：</p><blockquote><p>输入：nums = [5,7,7,8,8,10], target = 8输出：[3,4]</p></blockquote><p>示例2：</p><blockquote><p>输入：nums = [5,7,7,8,8,10], target = 6输出：[-1,-1]</p></blockquote><p>示例3：</p><blockquote><p>输入：nums = [], target = 0输出：[-1,-1]</p></blockquote><h2>解题方法：二分查找</h2><pre data-language="swift"><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchRange</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; [<span class="hljs-type">Int</span>] {
+        <span class="hljs-keyword">let</span> first = searchFirst(nums, target)
+        <span class="hljs-keyword">let</span> last = searchLast(nums, target)
+        
+        <span class="hljs-keyword">return</span> [first, last]
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchFirst</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> nums[mid] == target {
+                <span class="hljs-keyword">if</span> mid == <span class="hljs-keyword">left</span> || nums[mid - <span class="hljs-number">1</span>] != target {
+                    <span class="hljs-keyword">return</span> mid
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
+                }
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> nums[mid] &lt; target {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
+            }
+        }
+
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">searchLast</span><span class="hljs-params">(<span class="hljs-number">_</span> nums: [Int], <span class="hljs-number">_</span> target: Int)</span></span> -&gt; <span class="hljs-type">Int</span> {
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">left</span> = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">var</span> <span class="hljs-keyword">right</span> = nums.<span class="hljs-built_in">count</span> - <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">while</span> <span class="hljs-keyword">left</span> &lt;= <span class="hljs-keyword">right</span> {
+            <span class="hljs-keyword">let</span> mid = <span class="hljs-keyword">left</span> + (<span class="hljs-keyword">right</span> - <span class="hljs-keyword">left</span>) / <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> nums[mid] == target {
+                <span class="hljs-keyword">if</span> mid == <span class="hljs-keyword">right</span> || nums[mid + <span class="hljs-number">1</span>] != target {
+                    <span class="hljs-keyword">return</span> mid
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
+                }
+            } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> nums[mid] &lt; target {
+                <span class="hljs-keyword">left</span> = mid + <span class="hljs-number">1</span>
+            } <span class="hljs-keyword">else</span> {
+                <span class="hljs-keyword">right</span> = mid - <span class="hljs-number">1</span>
+            }
+        }
+
+        <span class="hljs-keyword">return</span> -<span class="hljs-number">1</span>
+    }
+}
+</code></pre><h3>解题思路:</h3><p>本题是要找到第一个和最后一个满足等于 target 的元素的位置，不存在则返回 -1。</p><h3>复杂度分析</h3><ul><li>时间复杂度：<code>O(logn)</code>，其中 <code>n</code> 为数组的长度。</li><li>空间复杂度：<code>O(1)</code>。</li></ul><h2>参考链接</h2><ul><li><a href="https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/">力扣原题</a></li></ul></div><div class="metadata"><ul class="tags"><li class="variant-1"><a href="/tags/力扣">力扣</a></li><li class="variant-4"><a href="/tags/简单">简单</a></li><li class="variant-2"><a href="/tags/算法">算法</a></li><li class="variant-3"><a href="/tags/数组">数组</a></li><li class="variant-0"><a href="/tags/二分查找">二分查找</a></li></ul><span class="date">发布于 2021年12月12日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
