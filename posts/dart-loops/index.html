@@ -1,0 +1,56 @@
+<!DOCTYPE html><html lang="zh"><head><meta charset="UTF-8"/><meta name="og:site_name" content="DEREKCODER"/><link rel="canonical" href="https://derekcoder.github.io/posts/dart-loops"/><meta name="twitter:url" content="https://derekcoder.github.io/posts/dart-loops"/><meta name="og:url" content="https://derekcoder.github.io/posts/dart-loops"/><title>在 Dart 中，有哪些循环操作？ | DEREKCODER</title><meta name="twitter:title" content="在 Dart 中，有哪些循环操作？ | DEREKCODER"/><meta name="og:title" content="在 Dart 中，有哪些循环操作？ | DEREKCODER"/><meta name="description" content="while, do-while, for, for-in, for-each & map"/><meta name="twitter:description" content="while, do-while, for, for-in, for-each & map"/><meta name="og:description" content="while, do-while, for, for-in, for-each & map"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to DEREKCODER"/></head><body class="item-page"><header class="header-nav"><div class="blog-category"><ul><li><a href="/">首页</a></li><li><a href="/posts" class="selected">文章</a></li><li><a href="/apps">应用</a></li><li><a href="/about">关于</a></li></ul></div></header><div class="wrapper"><article><div class="content"><h1>在 Dart 中，有哪些循环操作？</h1><ul><li>while</li><li>do-while</li><li>for</li><li>for-in</li><li>for-each</li><li>map</li></ul><h2>while</h2><pre data-language="dart"><code><span class="hljs-built_in">int</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">while</span> (i &lt;= <span class="hljs-number">5</span>) {
+  <span class="hljs-built_in">print</span>(i);
+  i++;
+}
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// 4</span>
+<span class="hljs-comment">// 5</span>
+</code></pre><h2>do-while</h2><pre data-language="dart"><code><span class="hljs-built_in">int</span> i = <span class="hljs-number">1</span>;
+<span class="hljs-keyword">do</span> {
+  <span class="hljs-built_in">print</span>(i);
+  i++;
+} <span class="hljs-keyword">while</span> (i &lt;= <span class="hljs-number">5</span>);
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// 4</span>
+<span class="hljs-comment">// 5</span>
+</code></pre><h2>C 语言风格的 for 循环</h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; numbers.length; i++) {
+  <span class="hljs-built_in">print</span>(numbers[i]);
+}
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// 4</span>
+<span class="hljs-comment">// 5</span>
+</code></pre><h2>for-in 循环</h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+<span class="hljs-keyword">for</span> (<span class="hljs-keyword">final</span> number <span class="hljs-keyword">in</span> numbers) {
+  <span class="hljs-built_in">print</span>(number);
+}
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// 4</span>
+<span class="hljs-comment">// 5</span>
+</code></pre><h2>for-each 循环</h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+numbers.forEach((number) =&gt; <span class="hljs-built_in">print</span>(number));
+<span class="hljs-comment">// 1</span>
+<span class="hljs-comment">// 2</span>
+<span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// 4</span>
+<span class="hljs-comment">// 5</span>
+</code></pre><p>for-each 底层实现也是使用了 for-in：</p><pre data-language="dart"><code><span class="hljs-keyword">abstract</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Iterable</span>&lt;<span class="hljs-title">E</span>&gt; </span>{
+  <span class="hljs-comment">/// <span class="markdown">Invokes [action] on each element of this iterable in iteration order.</span></span>
+  <span class="hljs-keyword">void</span> forEach(<span class="hljs-keyword">void</span> action(E element)) {
+    <span class="hljs-keyword">for</span> (E element <span class="hljs-keyword">in</span> <span class="hljs-keyword">this</span>) action(element);
+  }
+}
+</code></pre><h2>map 循环</h2><pre data-language="dart"><code><span class="hljs-keyword">const</span> numbers = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>];
+<span class="hljs-keyword">final</span> newNumbers = numbers.map((number) =&gt; number * number);
+<span class="hljs-built_in">print</span>(newNumbers);
+<span class="hljs-comment">// (1, 4, 9, 16, 25)</span>
+</code></pre></div><div class="metadata"><ul class="tags"><li class="variant-9"><a href="/tags/flutter">Flutter</a></li><li class="variant-0"><a href="/tags/dart">Dart</a></li><li class="variant-0"><a href="/tags/dart-问题集锦">Dart 问题集锦</a></li></ul><span class="date">发布于 2022年03月06日</span></div></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p><p><a href="/feed.rss">RSS feed</a></p></footer></body></html>
