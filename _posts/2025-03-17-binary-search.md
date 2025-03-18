@@ -19,7 +19,7 @@ func search(_ nums: [Int], _ target: Int) -> Int {
 }
 ```
 
-It's okay for a normal searching. However, if the collection is sorted, whether we can have a better solution than a linear search? Yes, we have. It is called **Binary Search**, which is far better than linear search, especially when the data set is large.
+It's okay for a normal searching. However, if the collection is **sorted**, whether we could have a better solution than a linear search? Yes, we have. It is called **Binary Search**, which is far better than linear search, especially when the data set is large.
 
 ### What is Binary Search?
 
