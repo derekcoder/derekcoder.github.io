@@ -43,14 +43,15 @@ class FixedWindowRateLimiter {
 
         if currentWindow != window {
             currentWindow = window
-            currentCount = 0
+            currentCount = 1
+        } else {
+            currentCount += 1
         }
 
-        if currentCount < limit {
-            currentCount += 1
-            return true
-        } else {
+        if currentCount > limit {
             return false
+        } else {
+            return true
         }
     }
 }
