@@ -1,21 +1,23 @@
 ---
-title: Sheet in SwiftUI
+title: fullScreenCover in SwiftUI
 layout: post
 category: SwiftUI Views
 tag: SwiftUI
 ---
 
-There are two ways to present a sheet in SwiftUI.
+Similar to **Sheet in SwiftUI**, there are two ways to present a **full screen modal view** in SwiftUI as well.
+
+> To learn more about Sheet, take a look at my [“Sheet in SwiftUI”](/posts/sheet-in-swiftui/) post.
 
 ## 1. Binding to a Boolean value
 
-In this way, SwiftUI will present a sheet when a binding to a Boolean value that you provide is `true`.
+In this way, SwiftUI will present a modal view that covers as much of the screen as possible when a binding to a Boolean value that you provide is `true`.
 
 The official method definition is below:
 
 ```swift
 nonisolated
-func sheet<Content>(
+func fullScreenCover<Content>(
     isPresented: Binding<Bool>,
     onDismiss: (() -> Void)? = nil,
     @ViewBuilder content: @escaping () -> Content
@@ -42,7 +44,7 @@ struct TimelineListView: View {
                     }
                 }
             }
-            .sheet(isPresented: $showingSettings, onDismiss: didDismiss) {
+            .fullScreenCover(isPresented: $showingSettings, onDismiss: didDismiss) {
                 SettingsView()
             }
         }
@@ -56,20 +58,20 @@ struct TimelineListView: View {
 
 <div align="center">
   <img src="/assets/posts/timeline_list.png" alt="Timeline List" width="260"/>
-  <img src="/assets/posts/settings_view.png" alt="Settings View" width="260"/>
+  <img src="/assets/posts/settings_view_fullscreen.png" alt="Settings View" width="260"/>
 </div>
 
 In the above example, SwiftUI will present `SettingsView` when `showingSettings` is `true`.
 
 ## 2. Using Data Source Item
 
-Another way to present a sheet is using the given item as a data source for the sheet's content.
+Another way to present a full screen modal view is using the given item as a data source for the modal view's content.
 
 The method definition is as follows:
 
 ```swift
 nonisolated
-func sheet<Item, Content>(
+func fullScreenCover<Item, Content>(
     item: Binding<Item?>,
     onDismiss: (() -> Void)? = nil,
     @ViewBuilder content: @escaping (Item) -> Content
@@ -92,7 +94,7 @@ struct TimelineDetailView: View {
                 }
         }
         .navigationTitle(timeline.title)
-        .sheet(isPresented: $showingEventToEdit) { event in
+        .fullScreenCover(isPresented: $showingEventToEdit) { event in
             EventEditView(timeline: timeline, event: event)
         }
     }
@@ -101,15 +103,15 @@ struct TimelineDetailView: View {
 
 SwiftUI will present a `EventEditView` when `showingEventToEdit` has value.
 
-## Multiple Sheets
+## Multiple Modal Views
 
-Sometimes, we may need to present multiple sheets in the same view. How to achieve this in a concise way? 
+Sometimes, we may need to present multiple full screen modal views in the same view. How to achieve this in a concise way? 
 
-We can create an enum like `Sheet` to combine all sheet cases together.
+We can create an enum like `ModalView` to combine all modal views together.
 
 ```swift
 struct TimelineDetailView: View {
-    enum Sheet: Identifier {
+    enum ModalView: Identifier {
         case createEvent
         case editEvent(Event)
 
@@ -122,28 +124,28 @@ struct TimelineDetailView: View {
     }
 
     let timeline: Timeline
-    @State private var showingSheet: Sheet? = nil
+    @State private var showingModalView: ModalView? = nil
 
     var body: some View {
         List(timeline.events) { event in 
             EventRow(event: event)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    showingSheet = .editEvent(event)
+                    showingModalView = .editEvent(event)
                 }
         }
         .navigationTitle(timeline.title)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
-                    showingSheet = .createEvent
+                    showingModalView = .createEvent
                 } label: {
                     Image(systemName: "plus")
                 }
             }
         }
-        .sheet(item: $showingSheet) { sheet in
-            switch sheet {
+        .fullScreenCover(item: $showingModalView) { modalView in
+            switch modalView {
             case .createEvent: 
                 EventCreateView(timeline: timeline)
             case .editEvent(let event): 
@@ -156,13 +158,13 @@ struct TimelineDetailView: View {
 
 <div align="center">
   <img src="/assets/posts/timeline_detail.png" alt="Timeline Detail" width="260"/>
-  <img src="/assets/posts/event_create_view.png" alt="Event Create View" width="260"/>
-  <img src="/assets/posts/event_edit_view.png" alt="Event Edit View" width="260"/>
+  <img src="/assets/posts/event_create_view_fullscreen.png" alt="Event Create View" width="260"/>
+  <img src="/assets/posts/event_edit_view_fullscreen.png" alt="Event Edit View" width="260"/>
 </div>
 
-Using this way, we can simply combine all sheets together without multiple state definitions and sheet modifiers.
+Using this way, we can simply combine all full screen modal views together without multiple state definitions and fullScreenCover modifiers.
 
 ## References
 
-- [sheet(isPresented:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/sheet(ispresented:ondismiss:content:))
-- [sheet(item:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/sheet(item:ondismiss:content:))
+- [fullScreenCover(isPresented:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/fullscreencover(ispresented:ondismiss:content:))
+- [fullScreenCover(item:onDismiss:content:)](https://developer.apple.com/documentation/swiftui/view/fullscreencover(item:ondismiss:content:))
