@@ -56,7 +56,7 @@ struct TimelineListView: View {
 }
 ```
 
-<div align="center">
+<div align="left">
   <img src="/assets/posts/timeline_list.png" alt="Timeline List" width="260"/>
   <img src="/assets/posts/settings_view_fullscreen.png" alt="Settings View" width="260"/>
 </div>
@@ -156,7 +156,7 @@ struct TimelineDetailView: View {
 }
 ```
 
-<div align="center">
+<div align="left">
   <img src="/assets/posts/timeline_detail.png" alt="Timeline Detail" width="260"/>
   <img src="/assets/posts/event_create_view_fullscreen.png" alt="Event Create View" width="260"/>
   <img src="/assets/posts/event_edit_view_fullscreen.png" alt="Event Edit View" width="260"/>
