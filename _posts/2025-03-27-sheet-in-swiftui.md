@@ -61,7 +61,7 @@ struct TimelineListView: View {
 
 In the above example, SwiftUI will present `SettingsView` when `showingSettings` is `true`.
 
-## 2. Using Data Source Item
+## 2. Using data source item
 
 Another way to present a sheet is using the given item as a data source for the sheet's content.
 
@@ -101,7 +101,7 @@ struct TimelineDetailView: View {
 
 SwiftUI will present a `EventEditView` when `showingEventToEdit` has value.
 
-## Multiple Sheets
+## Multiple sheets
 
 Sometimes, we may need to present multiple sheets in the same view. How to achieve this in a concise way? 
 

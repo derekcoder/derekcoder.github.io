@@ -7,7 +7,7 @@ tag: SwiftUI
 
 There are several ways to present an alert in SwiftUI. Let's go through them one by one.
 
-## 1. Alert with Title only
+## 1. Alert with title
 
 SwiftUI will present an alert when a given condition is `true`, using a text view for the title.
 
@@ -75,7 +75,7 @@ In the above example, SwiftUI will present an error alert when `showingErrorAler
   <img src="/assets/posts/alert_1.png" alt="Alert" width="260"/>
 </div>
 
-## 2. Alert with Title and Message
+## 2. Alert with title and message
 
 You can also present an alert with a message when a given condition is `true`.
 
@@ -150,7 +150,7 @@ SwiftUI will present an alert with message when `showingErrorAlert` is `true`.
   <img src="/assets/posts/alert_2.png" alt="Alert" width="260"/>
 </div>
 
-## 3. Alert using Data
+## 3. Alert using data
 
 We are able to present an alert using the given data to produce the alert's actions.
 
@@ -224,7 +224,7 @@ SwiftUI will present the alert when `showingErrorAlert` is `true` and call `acti
   <img src="/assets/posts/alert_3.png" alt="Alert" width="260"/>
 </div>
 
-## 4. Alert with Title and Message using Data
+## 4. Alert with title and message using data
 
 We are able to present an alert with title and message using the given data to produce the alert's actions and message as well.
 

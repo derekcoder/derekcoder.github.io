@@ -63,7 +63,7 @@ struct TimelineListView: View {
 
 In the above example, SwiftUI will present `SettingsView` when `showingSettings` is `true`.
 
-## 2. Using Data Source Item
+## 2. Using data source item
 
 Another way to present a full screen modal view is using the given item as a data source for the modal view's content.
 
@@ -103,7 +103,7 @@ struct TimelineDetailView: View {
 
 SwiftUI will present a `EventEditView` when `showingEventToEdit` has value.
 
-## Multiple Modal Views
+## Multiple modal views
 
 Sometimes, we may need to present multiple full screen modal views in the same view. How to achieve this in a concise way? 
 
