@@ -9,8 +9,8 @@ Rate limiting is a mechanism used to control the **number of requests** that a c
 
 Here are some common rate limiting algorithms:
 
-- Fixed Window
-- Sliding Window
+- **Fixed Window**
+- [Sliding Window](/posts/rate-limiter-sliding-window)
 - Token Bucket
 - Leaky Bucket
 
@@ -20,7 +20,7 @@ In this post, we will look at the **"Fixed Window"** algorithm.
 
 The **Fixed Window** algorithm is rate limiting technique that divides time into fixed intervals (e.g., one minute or one second). A counter will track the number of requests during each interval, and further requests will be dropped after the counter reaches the maximum limitation.
 
-![CardioBot](/assets/posts/fixed_window.webp)
+![Fixed Window](/assets/posts/fixed_window.webp)
 
 The simple implementation is as follows:
 ```swift
